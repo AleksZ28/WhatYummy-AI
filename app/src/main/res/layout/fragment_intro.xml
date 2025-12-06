@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_intro"
+    tools:context=".IntroFragment">
+
+
+    <TextView
+        android:id="@+id/tvIntroH1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:fontFamily="@font/poppins"
+        android:includeFontPadding="false"
+        android:text="WhatYummy"
+        android:textColor="@color/black"
+        android:textFontWeight="700"
+        android:textSize="40sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+    <TextView
+        android:id="@+id/tvIntroH2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-16dp"
+        android:fontFamily="@font/poppins"
+        android:includeFontPadding="false"
+        android:text="AI"
+        android:textColor="@color/darkorange"
+        android:textFontWeight="700"
+        android:textSize="60sp"
+        app:layout_constraintStart_toStartOf="@+id/tvIntroH1"
+        app:layout_constraintTop_toBottomOf="@+id/tvIntroH1" />
+
+    <TextView
+        android:id="@+id/tvIntroParagraph"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="40dp"
+        android:background="@drawable/bg_rounded"
+        android:fontFamily="@font/poppins"
+        android:includeFontPadding="false"
+        android:lineHeight="25dp"
+        android:text="Znajdź idealny przepis na podstawie posiadanych produktów!"
+        android:textColor="@color/black"
+        android:textFontWeight="600"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/tvIntroH2"
+        app:layout_constraintTop_toBottomOf="@+id/tvIntroH2" />
+
+    <TextView
+        android:id="@+id/tvIntroDev"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:text="Developed by Ali"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.15" />
+</androidx.constraintlayout.widget.ConstraintLayout>
