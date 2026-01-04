@@ -1,13 +1,16 @@
-package com.azurowski.whatyummyai
+package com.azurowski.whatyummyai.intro
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.firebase.auth.FirebaseAuth
 import androidx.core.content.edit
+import com.azurowski.whatyummyai.R
 
 class afterLoginFragment : Fragment(R.layout.fragment_after_login) {
 
@@ -24,9 +27,9 @@ class afterLoginFragment : Fragment(R.layout.fragment_after_login) {
         view.findViewById<TextView>(R.id.tvIntroH2).text = name
 
         val activity = requireActivity()
-        val rootLayout = activity.findViewById<androidx.constraintlayout.widget.ConstraintLayout>(R.id.main)
+        val rootLayout = activity.findViewById<ConstraintLayout>(R.id.main)
 
-        val prefs = requireContext().getSharedPreferences("MyPrefs", android.content.Context.MODE_PRIVATE)
+        val prefs = requireContext().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
 
         val circle1 = view.findViewById<View>(R.id.vThemeChoice1)
         val circle2 = view.findViewById<View>(R.id.vThemeChoice2)

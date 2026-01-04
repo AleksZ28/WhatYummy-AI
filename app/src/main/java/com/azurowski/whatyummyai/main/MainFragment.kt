@@ -1,4 +1,4 @@
-package com.azurowski.whatyummyai
+package com.azurowski.whatyummyai.main
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.FrameLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.azurowski.whatyummyai.R
 import com.azurowski.whatyummyai.adapters.KitchenAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
@@ -21,24 +23,16 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     ): View? {
 
         val view = inflater.inflate(R.layout.fragment_main, container, false)
-        val recyclerView = view.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.rvKitchen)
+        val recyclerView = view.findViewById<RecyclerView>(R.id.rvKitchen)
 
         lateinit var adapter: KitchenAdapter
-        val ingredients = mutableListOf<String>("Cebula", "Ogry")
+        val ingredients = mutableListOf<String>("Mleko", "Jaja")
 
         adapter = KitchenAdapter(ingredients) {}
 
         recyclerView.adapter = adapter
         recyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-
-//        btnAddIngredient.setOnClickListener {
-//            val newIngredient = etIngredient.text.toString()
-//            if (newIngredient.isNotBlank()) {
-//                adapter.addItem(newIngredient)
-//                saveIngredientToFirebase(newIngredient)
-//            }
-//        }
 
         val fabAddIngredient = view.findViewById<ExtendedFloatingActionButton>(R.id.fabAddIngr)
         fabAddIngredient.setOnClickListener {

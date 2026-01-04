@@ -1,4 +1,4 @@
-package com.azurowski.whatyummyai
+package com.azurowski.whatyummyai.main
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import com.azurowski.whatyummyai.R
+import com.azurowski.whatyummyai.search.SearchActivity
 
 class SearchbarFragment : Fragment(R.layout.fragment_searchbar) {
 

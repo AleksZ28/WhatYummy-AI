@@ -1,4 +1,4 @@
-package com.azurowski.whatyummyai
+package com.azurowski.whatyummyai.intro
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.Button
 import android.view.ViewGroup
+import com.azurowski.whatyummyai.main.MainActivity
+import com.azurowski.whatyummyai.R
 
 class afterLoginButton : Fragment(R.layout.fragment_after_login_button) {
 

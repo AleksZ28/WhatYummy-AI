@@ -1,4 +1,4 @@
-package com.azurowski.whatyummyai
+package com.azurowski.whatyummyai.intro
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,7 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.Button
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.transition.ChangeBounds
+import androidx.transition.TransitionManager
+import com.azurowski.whatyummyai.R
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -75,12 +79,12 @@ class ButtonIntroFragment : Fragment() {
                     Log.d("AUTH", "signInWithCredential:success")
                     val user = auth.currentUser
 
-                    val rootLayout = requireActivity().findViewById<androidx.constraintlayout.widget.ConstraintLayout>(R.id.main)
-                    val transition = androidx.transition.ChangeBounds().apply {
+                    val rootLayout = requireActivity().findViewById<ConstraintLayout>(R.id.main)
+                    val transition = ChangeBounds().apply {
                         duration = 750
                         interpolator = AccelerateDecelerateInterpolator()
                     }
-                    androidx.transition.TransitionManager.beginDelayedTransition(rootLayout, transition)
+                    TransitionManager.beginDelayedTransition(rootLayout, transition)
 
                     parentFragmentManager.beginTransaction()
                         .replace(R.id.fcvIntro, afterLoginFragment())
