@@ -1,4 +1,4 @@
-package com.ali.whatyummyai
+package com.azurowski.whatyummyai
 
 import android.content.Context
 

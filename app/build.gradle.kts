@@ -5,13 +5,13 @@ plugins {
 }
 
 android {
-    namespace = "com.ali.whatyummyai"
-    compileSdk = 35
+    namespace = "com.azurowski.whatyummyai"
+    compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.ali.whatyummyai"
+        applicationId = "com.azurowski.whatyummyai"
         minSdk = 26
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
@@ -48,9 +48,9 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    implementation("com.google.android.material:material:1.12.0")
-    implementation(platform("com.google.firebase:firebase-bom:33.15.0"))
-    implementation("com.google.firebase:firebase-analytics")
-    implementation("com.google.android.gms:play-services-auth:20.5.0")
-    implementation("com.google.firebase:firebase-auth:22.1.1")
+    implementation(libs.material.v1130)
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.play.services.auth)
+    implementation(libs.firebase.auth)
 }

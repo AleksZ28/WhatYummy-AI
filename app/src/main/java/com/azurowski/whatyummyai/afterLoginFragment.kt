@@ -1,4 +1,4 @@
-package com.ali.whatyummyai
+package com.azurowski.whatyummyai
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,9 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.firebase.auth.FirebaseAuth
-import com.ali.whatyummyai.dpToPx
 import androidx.core.content.edit
 
 class afterLoginFragment : Fragment(R.layout.fragment_after_login) {
