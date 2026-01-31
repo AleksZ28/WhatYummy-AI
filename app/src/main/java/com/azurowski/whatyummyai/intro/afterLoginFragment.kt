@@ -43,19 +43,19 @@ class afterLoginFragment : Fragment(R.layout.fragment_after_login) {
             circles.forEach {it.isSelected = false}
             circle1.isSelected = true
             rootLayout.setBackgroundResource(R.drawable.bg_gradient1)
-            prefs.edit { putInt("themeId", R.drawable.bg_gradient1) }
+            prefs.edit { putInt("themeId", 1) }
         }
         circle2.setOnClickListener {
             circles.forEach {it.isSelected = false}
             circle2.isSelected = true
             rootLayout.setBackgroundResource(R.drawable.bg_gradient2)
-            prefs.edit { putInt("themeId", R.drawable.bg_gradient2) }
+            prefs.edit { putInt("themeId", 2) }
         }
         circle3.setOnClickListener {
             circles.forEach {it.isSelected = false}
             circle3.isSelected = true
             rootLayout.setBackgroundResource(R.drawable.bg_gradient3)
-            prefs.edit { putInt("themeId", R.drawable.bg_gradient3) }
+            prefs.edit { putInt("themeId", 3) }
         }
 
         return view
