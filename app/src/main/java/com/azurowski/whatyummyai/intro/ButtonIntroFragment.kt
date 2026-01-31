@@ -1,6 +1,6 @@
 package com.azurowski.whatyummyai.intro
 
-import android.content.Intent
+import android.credentials.GetCredentialException
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,25 +9,22 @@ import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.Button
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.credentials.CredentialManager
+import androidx.credentials.GetCredentialRequest
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.transition.ChangeBounds
 import androidx.transition.TransitionManager
 import com.azurowski.whatyummyai.R
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
-import com.google.firebase.Firebase
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.auth
+import kotlinx.coroutines.launch
 
 class ButtonIntroFragment : Fragment() {
 
-    private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var auth: FirebaseAuth
-
-    private val RC_SIGN_IN = 9001
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,39 +32,36 @@ class ButtonIntroFragment : Fragment() {
     ): View {
         val view = inflater.inflate(R.layout.fragment_button_intro, container, false)
 
-        auth = Firebase.auth
-
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-
-        googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+        auth = FirebaseAuth.getInstance()
 
         view.findViewById<Button>(R.id.bLoginWithGoogle).setOnClickListener {
-            signIn()
+            lifecycleScope.launch {
+                signInWithCredentialManager()
+            }
         }
 
         return view
     }
 
-    private fun signIn() {
-        val signInIntent = googleSignInClient.signInIntent
-        startActivityForResult(signInIntent, RC_SIGN_IN)
-    }
+    private suspend fun signInWithCredentialManager() {
+        val credentialManager = CredentialManager.create(requireContext())
 
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+        val googleIdOption = GetGoogleIdOption.Builder()
+            .setServerClientId(getString(R.string.default_web_client_id))
+            .build()
 
-        if (requestCode == RC_SIGN_IN) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            try {
-                val account = task.getResult(ApiException::class.java)!!
-                firebaseAuthWithGoogle(account.idToken!!)
-            } catch (e: ApiException) {
-                Log.w("GoogleSignIn", "signInResult:failed code=" + e.statusCode)
-            }
+        val request = GetCredentialRequest.Builder()
+            .addCredentialOption(googleIdOption)
+            .build()
+
+        try {
+            val result = credentialManager.getCredential(requireContext(), request)
+            val googleIdToken = GoogleIdTokenCredential.createFrom(result.credential.data)
+            firebaseAuthWithGoogle(googleIdToken.idToken)
+        } catch (e: GetCredentialException) {
+            Log.e("AUTH", "Błąd logowania: ${e.message}")
+        } catch (e: Exception) {
+            Log.e("AUTH", "${e.message}")
         }
     }
 
