@@ -10,7 +10,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.azurowski.whatyummyai.main.ui.screens.HomeScreen
+import com.azurowski.whatyummyai.main.ui.screens.home.HomeScreen
 import com.azurowski.whatyummyai.main.ui.theme.Backgrounds
 
 @Composable

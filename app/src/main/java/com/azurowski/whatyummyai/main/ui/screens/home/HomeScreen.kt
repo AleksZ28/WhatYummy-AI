@@ -1,5 +1,6 @@
-package com.azurowski.whatyummyai.main.ui.screens
+package com.azurowski.whatyummyai.main.ui.screens.home
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,26 +12,29 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.input.TextFieldState
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.azurowski.whatyummyai.main.ui.components.home.HomeBottomBar
-import com.azurowski.whatyummyai.main.ui.components.home.AddToKitchenButton
-import com.azurowski.whatyummyai.main.ui.components.home.RecentRecipesSection
+import androidx.navigation.compose.rememberNavController
 import com.azurowski.whatyummyai.main.ui.components.SearchBar
+import com.azurowski.whatyummyai.main.ui.components.home.AddToKitchenButton
+import com.azurowski.whatyummyai.main.ui.components.home.HomeBottomBar
+import com.azurowski.whatyummyai.main.ui.components.home.RecentRecipesSection
 import com.azurowski.whatyummyai.main.ui.components.home.YourKitchenSection
-import com.azurowski.whatyummyai.main.ui.theme.Backgrounds
+import com.azurowski.whatyummyai.main.ui.theme.BackgroundMapper
 import com.azurowski.whatyummyai.main.ui.theme.White50
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 @Composable
-fun HomeScreen(navController: NavController){
+fun HomeScreen(navController: NavController, viewModel: HomeViewModel = viewModel()){
     val textFieldState = remember { TextFieldState() }
 
     val searchList = listOf(
@@ -41,8 +45,22 @@ fun HomeScreen(navController: NavController){
         it.contains(textFieldState.text.toString(), ignoreCase = true)
     }
 
+    val recipes by viewModel.recipes.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.fetchRecipes()
+    }
+
+    val context = LocalContext.current
+    val prefs = remember {
+        context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+    }
+
+    val themeId = prefs.getInt("themeId", 1)
+
+
     Column(
-        modifier = Modifier.fillMaxSize().background(brush = Backgrounds.bg1),
+        modifier = Modifier.fillMaxSize().background(brush = BackgroundMapper(themeId)),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         SearchBar(
@@ -69,7 +87,7 @@ fun HomeScreen(navController: NavController){
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                YourKitchenSection()
+                YourKitchenSection(recipes)
             }
 
             AddToKitchenButton(modifier = Modifier.align(Alignment.BottomEnd))
@@ -84,6 +102,6 @@ fun HomeScreen(navController: NavController){
 @Composable
 fun HomeScreenPreview() {
     HomeScreen(
-        navController = androidx.navigation.compose.rememberNavController()
+        navController = rememberNavController()
     )
 }

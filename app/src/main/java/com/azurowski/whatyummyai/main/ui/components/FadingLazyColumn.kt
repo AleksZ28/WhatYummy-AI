@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
@@ -13,9 +14,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
+import com.azurowski.whatyummyai.main.model.Recipe
 
 @Composable
-fun FadingLazyColumn(){
+fun FadingLazyColumn(items: List<Recipe>){
     Box(
         modifier = Modifier
             .graphicsLayer {
@@ -43,8 +45,8 @@ fun FadingLazyColumn(){
             verticalArrangement = Arrangement.spacedBy(8.dp),
             contentPadding = PaddingValues(vertical = 20.dp)
         ) {
-            items(10) { _ ->
-                RecipeListItem("Testowy przepis", false)
+            items(items) {
+                RecipeListItem(it.title, false)
             }
         }
     }

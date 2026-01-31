@@ -11,10 +11,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.azurowski.whatyummyai.main.model.Recipe
 import com.azurowski.whatyummyai.main.ui.components.FadingLazyColumn
 
 @Composable
-fun YourKitchenSection(){
+fun YourKitchenSection(recipes: List<Recipe>){
     Text(
         text = "Twoja kuchnia",
         style = TextStyle(
@@ -43,5 +44,5 @@ fun YourKitchenSection(){
         )
     )
 
-    FadingLazyColumn()
+    FadingLazyColumn(recipes)
 }
