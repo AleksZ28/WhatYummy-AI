@@ -10,7 +10,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import com.azurowski.whatyummyai.main.ui.screens.HomeRoute
+import com.azurowski.whatyummyai.main.ui.screens.RecipeRoute
 import com.azurowski.whatyummyai.main.ui.screens.home.HomeScreen
+import com.azurowski.whatyummyai.main.ui.screens.recipe.RecipeScreen
 import com.azurowski.whatyummyai.main.ui.theme.Backgrounds
 
 @Composable
@@ -31,10 +35,21 @@ fun AppNav() {
     Box(modifier = Modifier.fillMaxSize().background(brush = savedTheme)){
         NavHost(
             navController = navController,
-            startDestination = "home"
+            startDestination = HomeRoute
         ) {
-            composable("home") {
+            composable<HomeRoute> {
                 HomeScreen(navController)
+            }
+
+            composable<RecipeRoute> { backStackEntry ->
+                val args = backStackEntry.toRoute<RecipeRoute>()
+
+                RecipeScreen(
+                    recipeId = args.recipeId,
+                    recipeTitle = args.recipeTitle,
+                    themeId = args.themeId,
+                    navController = navController
+                )
             }
         }
     }

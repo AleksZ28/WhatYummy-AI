@@ -2,7 +2,7 @@ package com.azurowski.whatyummyai.main.ui.theme
 
 import androidx.compose.ui.graphics.Brush
 
-fun BackgroundMapper(themeId: Int): Brush {
+fun getBackground(themeId: Int): Brush {
     return when(themeId) {
         1 -> Backgrounds.bg1
         2 -> Backgrounds.bg2

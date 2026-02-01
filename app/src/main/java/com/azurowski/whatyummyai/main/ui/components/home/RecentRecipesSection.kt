@@ -10,7 +10,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.azurowski.whatyummyai.main.ui.components.RecipeListItem
 
 @Composable
 fun RecentRecipesSection(){
@@ -27,7 +26,6 @@ fun RecentRecipesSection(){
             .padding(vertical = 12.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        RecipeListItem(title = "Pizza bezglutenowa", glutenFree = true)
-        RecipeListItem(title = "Babka migdałowa", glutenFree = false)
+
     }
 }

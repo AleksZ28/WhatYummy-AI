@@ -30,8 +30,8 @@ import com.azurowski.whatyummyai.main.ui.components.home.AddToKitchenButton
 import com.azurowski.whatyummyai.main.ui.components.home.HomeBottomBar
 import com.azurowski.whatyummyai.main.ui.components.home.RecentRecipesSection
 import com.azurowski.whatyummyai.main.ui.components.home.YourKitchenSection
-import com.azurowski.whatyummyai.main.ui.theme.BackgroundMapper
 import com.azurowski.whatyummyai.main.ui.theme.White50
+import com.azurowski.whatyummyai.main.ui.theme.getBackground
 
 @Composable
 fun HomeScreen(navController: NavController, viewModel: HomeViewModel = viewModel()){
@@ -60,7 +60,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = viewMode
 
 
     Column(
-        modifier = Modifier.fillMaxSize().background(brush = BackgroundMapper(themeId)),
+        modifier = Modifier.fillMaxSize().background(brush = getBackground(themeId)),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         SearchBar(
@@ -87,7 +87,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = viewMode
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                YourKitchenSection(recipes)
+                YourKitchenSection(navController, recipes, themeId)
             }
 
             AddToKitchenButton(modifier = Modifier.align(Alignment.BottomEnd))

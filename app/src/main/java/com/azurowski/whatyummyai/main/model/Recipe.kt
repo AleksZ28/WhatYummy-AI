@@ -15,6 +15,12 @@ data class Recipe(
     val createdAt: Timestamp = Timestamp.now()
 )
 
+data class RecipeSummary(
+    val id: String = "",
+    val title: String = "",
+    val isGlutenFree: Boolean = false,
+)
+
 data class Ingredient(
     val amount: Double = 0.0,
     val ingredient: String = "",
