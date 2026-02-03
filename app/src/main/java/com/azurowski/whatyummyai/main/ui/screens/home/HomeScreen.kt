@@ -16,15 +16,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import com.azurowski.whatyummyai.main.ui.components.AddKitchenItemDialog
 import com.azurowski.whatyummyai.main.ui.components.SearchBar
 import com.azurowski.whatyummyai.main.ui.components.home.AddToKitchenButton
 import com.azurowski.whatyummyai.main.ui.components.home.HomeBottomBar
@@ -34,7 +34,11 @@ import com.azurowski.whatyummyai.main.ui.theme.White50
 import com.azurowski.whatyummyai.main.ui.theme.getBackground
 
 @Composable
-fun HomeScreen(navController: NavController, viewModel: HomeViewModel = viewModel()){
+fun HomeScreen(
+    navController: NavController,
+    homeViewModel: HomeViewModel = viewModel(),
+    kitchenViewModel: KitchenViewModel = viewModel()
+){
     val textFieldState = remember { TextFieldState() }
 
     val searchList = listOf(
@@ -45,10 +49,12 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = viewMode
         it.contains(textFieldState.text.toString(), ignoreCase = true)
     }
 
-    val recipes by viewModel.recipes.collectAsState()
+    val recipes by homeViewModel.recipes.collectAsState()
+    val kitchenItems by kitchenViewModel.kitchenItems.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.fetchRecipes()
+        homeViewModel.fetchRecipes()
+        kitchenViewModel.observeItems()
     }
 
     val context = LocalContext.current
@@ -58,6 +64,13 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = viewMode
 
     val themeId = prefs.getInt("themeId", 1)
 
+    val openDialog = remember { mutableStateOf(false) }
+
+    AddKitchenItemDialog(
+        showDialog = openDialog.value,
+        onDismiss = { openDialog.value = false },
+        onConfirm = { kitchenViewModel.addItem(it); openDialog.value = false }
+    )
 
     Column(
         modifier = Modifier.fillMaxSize().background(brush = getBackground(themeId)),
@@ -87,21 +100,13 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = viewMode
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                YourKitchenSection(navController, recipes, themeId)
+                YourKitchenSection(navController, kitchenItems, onDelete = { kitchenViewModel.deleteItem(it) }, recipes, themeId)
             }
 
-            AddToKitchenButton(modifier = Modifier.align(Alignment.BottomEnd))
+            AddToKitchenButton(modifier = Modifier.align(Alignment.BottomEnd), onClick = { openDialog.value = true })
 
         }
 
         HomeBottomBar()
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun HomeScreenPreview() {
-    HomeScreen(
-        navController = rememberNavController()
-    )
 }

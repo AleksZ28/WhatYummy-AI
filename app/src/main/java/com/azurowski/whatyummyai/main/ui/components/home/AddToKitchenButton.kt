@@ -12,11 +12,11 @@ import androidx.compose.ui.unit.dp
 import com.azurowski.whatyummyai.main.ui.theme.GrayStatic
 
 @Composable
-fun AddToKitchenButton(modifier: Modifier) {
+fun AddToKitchenButton(modifier: Modifier, onClick: () -> Unit) {
     ExtendedFloatingActionButton(
         text = { Text(text = "Dodaj do kuchni") },
         icon = { Icon(Icons.Filled.Add, contentDescription = "Dodaj do kuchni") },
-        onClick = { },
+        onClick = { onClick() },
         containerColor = GrayStatic,
         modifier = modifier.padding(end = 24.dp, bottom = 24.dp)
     )
