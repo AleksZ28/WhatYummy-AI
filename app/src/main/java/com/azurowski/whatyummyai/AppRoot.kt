@@ -51,7 +51,6 @@ fun AppNav() {
                 RecipeScreen(
                     recipeId = args.recipeId,
                     recipeTitle = args.recipeTitle,
-                    themeId = args.themeId,
                     navController = navController
                 )
             }

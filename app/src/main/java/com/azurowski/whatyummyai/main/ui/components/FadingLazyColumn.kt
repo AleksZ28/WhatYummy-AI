@@ -14,11 +14,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.azurowski.whatyummyai.main.model.RecipeSummary
 
 @Composable
-fun FadingLazyColumn(navController: NavController, items: List<RecipeSummary>, themeId: Int){
+fun FadingLazyColumn(items: List<RecipeSummary>, onRecipeClick: (String, String) -> Unit){
     Box(
         modifier = Modifier
             .graphicsLayer {
@@ -47,7 +46,7 @@ fun FadingLazyColumn(navController: NavController, items: List<RecipeSummary>, t
             contentPadding = PaddingValues(vertical = 20.dp)
         ) {
             items(items) {
-                RecipeListItem(navController, it, themeId)
+                RecipeListItem(it, onRecipeClick)
             }
         }
     }

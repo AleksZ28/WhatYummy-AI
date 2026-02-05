@@ -21,13 +21,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.azurowski.whatyummyai.main.model.KitchenItem
 import com.azurowski.whatyummyai.main.model.RecipeSummary
 import com.azurowski.whatyummyai.main.ui.components.FadingLazyColumn
 
 @Composable
-fun YourKitchenSection(navController: NavController, kitchenItems: List<KitchenItem>, onDelete: (String) -> Unit, recipes: List<RecipeSummary>, themeId: Int){
+fun YourKitchenSection(kitchenItems: List<KitchenItem>, onDelete: (String) -> Unit, recipes: List<RecipeSummary>, onRecipeClick: (String, String) -> Unit){
     Text(
         text = "Twoja kuchnia",
         style = TextStyle(
@@ -85,5 +84,5 @@ fun YourKitchenSection(navController: NavController, kitchenItems: List<KitchenI
         )
     )
 
-    FadingLazyColumn(navController, recipes, themeId)
+    FadingLazyColumn(recipes, onRecipeClick)
 }

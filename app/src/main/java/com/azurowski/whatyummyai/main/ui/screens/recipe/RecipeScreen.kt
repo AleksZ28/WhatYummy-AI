@@ -32,12 +32,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.azurowski.whatyummyai.main.ui.theme.White50
-import com.azurowski.whatyummyai.main.ui.theme.getBackground
 
 @Composable
-fun RecipeScreen(navController: NavController, recipeId: String, recipeTitle: String, themeId: Int){
+fun RecipeScreen(navController: NavController, recipeId: String, recipeTitle: String){
     Column(
-        modifier = Modifier.fillMaxSize().background(brush = getBackground(themeId)),
+        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Box(
@@ -145,7 +144,6 @@ fun RecipeScreenPreview() {
     RecipeScreen(
         navController = navController,
         recipeId = "123",
-        recipeTitle = "Spaghetti Carbonara",
-        themeId = 1
+        recipeTitle = "Spaghetti Carbonara"
     )
 }

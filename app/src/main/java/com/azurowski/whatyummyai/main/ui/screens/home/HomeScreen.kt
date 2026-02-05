@@ -31,6 +31,7 @@ import com.azurowski.whatyummyai.main.ui.components.home.HomeBottomBar
 import com.azurowski.whatyummyai.main.ui.components.home.RecentRecipesSection
 import com.azurowski.whatyummyai.main.ui.components.home.YourKitchenSection
 import com.azurowski.whatyummyai.main.ui.screens.AddRecipeRoute
+import com.azurowski.whatyummyai.main.ui.screens.RecipeRoute
 import com.azurowski.whatyummyai.main.ui.theme.White50
 import com.azurowski.whatyummyai.main.ui.theme.getBackground
 
@@ -101,7 +102,14 @@ fun HomeScreen(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                YourKitchenSection(navController, kitchenItems, onDelete = { kitchenViewModel.deleteItem(it) }, recipes, themeId)
+                YourKitchenSection(
+                    kitchenItems = kitchenItems,
+                    onDelete = { kitchenViewModel.deleteItem(it) },
+                    recipes = recipes,
+                    onRecipeClick = { recipeId, recipeTitle ->
+                        navController.navigate(RecipeRoute(recipeId, recipeTitle))
+                    }
+                )
             }
 
             AddToKitchenButton(modifier = Modifier.align(Alignment.BottomEnd), onClick = { openDialog.value = true })

@@ -24,26 +24,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import com.azurowski.whatyummyai.R
 import com.azurowski.whatyummyai.main.model.RecipeSummary
-import com.azurowski.whatyummyai.main.ui.screens.RecipeRoute
 import com.azurowski.whatyummyai.main.ui.theme.White50
 
 @Composable
-fun RecipeListItem(navController: NavController, recipe: RecipeSummary, themeId: Int){
+fun RecipeListItem(recipe: RecipeSummary, onClick: (String, String) -> Unit){
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(20.dp))
             .clickable(
-                onClick = { navController.navigate(
-                    RecipeRoute(
-                        recipeId = recipe.id,
-                        recipeTitle = recipe.title,
-                        themeId = themeId
-                    )
-                ) },
+                onClick = { onClick(recipe.id, recipe.title) },
                 interactionSource = remember { MutableInteractionSource() },
                 indication = ripple()
             )
@@ -75,6 +67,5 @@ fun RecipeListItem(navController: NavController, recipe: RecipeSummary, themeId:
                 )
             }
         }
-
     }
 }

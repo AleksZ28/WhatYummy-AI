@@ -9,7 +9,6 @@ data object HomeRoute
 data class RecipeRoute(
     val recipeId: String,
     val recipeTitle: String,
-    val themeId: Int
 )
 
 @Serializable
