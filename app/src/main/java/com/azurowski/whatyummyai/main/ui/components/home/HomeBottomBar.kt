@@ -49,7 +49,7 @@ import com.azurowski.whatyummyai.main.ui.theme.White50
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun HomeBottomBar(){
+fun HomeBottomBar(navigateToAddRecipe: () -> Unit){
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -145,7 +145,7 @@ fun HomeBottomBar(){
 
 
             Row() {
-                IconButton(onClick = { /* do something */ }) {
+                IconButton(onClick = navigateToAddRecipe) {
                     Icon(Icons.Filled.Add, contentDescription = "Dodaj przepis")
                 }
                 IconButton(onClick = { /* do something */ }) {

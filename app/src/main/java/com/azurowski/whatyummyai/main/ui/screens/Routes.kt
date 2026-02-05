@@ -11,3 +11,6 @@ data class RecipeRoute(
     val recipeTitle: String,
     val themeId: Int
 )
+
+@Serializable
+data object AddRecipeRoute

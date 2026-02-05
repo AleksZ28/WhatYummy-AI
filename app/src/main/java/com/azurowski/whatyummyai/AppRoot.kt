@@ -1,6 +1,8 @@
 package com.azurowski.whatyummyai
 
 import android.content.Context.MODE_PRIVATE
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,9 +13,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.azurowski.whatyummyai.main.ui.screens.AddRecipeRoute
 import com.azurowski.whatyummyai.main.ui.screens.HomeRoute
 import com.azurowski.whatyummyai.main.ui.screens.RecipeRoute
 import com.azurowski.whatyummyai.main.ui.screens.home.HomeScreen
+import com.azurowski.whatyummyai.main.ui.screens.recipe.AddRecipeScreen
 import com.azurowski.whatyummyai.main.ui.screens.recipe.RecipeScreen
 import com.azurowski.whatyummyai.main.ui.theme.Backgrounds
 
@@ -50,6 +54,21 @@ fun AppNav() {
                     themeId = args.themeId,
                     navController = navController
                 )
+            }
+
+            composable<AddRecipeRoute>(
+                enterTransition = {
+                    slideInVertically(
+                        initialOffsetY = { it }
+                    )
+                },
+                popExitTransition = {
+                    slideOutVertically(
+                        targetOffsetY = { it }
+                    )
+                }
+            ) {
+                AddRecipeScreen(navController)
             }
         }
     }
