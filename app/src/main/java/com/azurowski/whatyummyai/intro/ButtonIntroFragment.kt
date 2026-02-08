@@ -47,6 +47,7 @@ class ButtonIntroFragment : Fragment() {
         val credentialManager = CredentialManager.create(requireContext())
 
         val googleIdOption = GetGoogleIdOption.Builder()
+            .setFilterByAuthorizedAccounts(false)
             .setServerClientId(getString(R.string.default_web_client_id))
             .build()
 
