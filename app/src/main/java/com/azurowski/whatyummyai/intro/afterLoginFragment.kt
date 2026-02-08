@@ -34,8 +34,9 @@ class afterLoginFragment : Fragment(R.layout.fragment_after_login) {
         val circle1 = view.findViewById<View>(R.id.vThemeChoice1)
         val circle2 = view.findViewById<View>(R.id.vThemeChoice2)
         val circle3 = view.findViewById<View>(R.id.vThemeChoice3)
+        val circle4 = view.findViewById<View>(R.id.vThemeChoice4)
 
-        val circles = listOf(circle1, circle2, circle3)
+        val circles = listOf(circle1, circle2, circle3, circle4)
 
         circle1.isSelected = true
 
@@ -56,6 +57,12 @@ class afterLoginFragment : Fragment(R.layout.fragment_after_login) {
             circle3.isSelected = true
             rootLayout.setBackgroundResource(R.drawable.bg_gradient3)
             prefs.edit { putInt("themeId", 3) }
+        }
+        circle4.setOnClickListener {
+            circles.forEach {it.isSelected = false}
+            circle3.isSelected = true
+            rootLayout.setBackgroundResource(R.drawable.bg_gradient4)
+            prefs.edit { putInt("themeId", 4) }
         }
 
         return view

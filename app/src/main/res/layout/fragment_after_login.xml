@@ -80,4 +80,13 @@
         android:background="@drawable/gradient_circle_3"
         app:layout_constraintStart_toEndOf="@+id/vThemeChoice2"
         app:layout_constraintTop_toTopOf="@+id/vThemeChoice2" />
+
+    <View
+        android:id="@+id/vThemeChoice4"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/gradient_circle_4"
+        app:layout_constraintStart_toEndOf="@+id/vThemeChoice3"
+        app:layout_constraintTop_toTopOf="@+id/vThemeChoice3" />
 </androidx.constraintlayout.widget.ConstraintLayout>

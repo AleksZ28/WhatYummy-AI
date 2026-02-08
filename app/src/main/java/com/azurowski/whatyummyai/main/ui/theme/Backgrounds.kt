@@ -31,4 +31,13 @@ object Backgrounds {
         start = Offset(Float.POSITIVE_INFINITY, 0f),
         end = Offset(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)
     )
+
+    val bg4 = Brush.linearGradient(
+        colors = listOf(
+            Color(0xFFFFB0FF),
+            Color(0xFF91FFFF)
+        ),
+        start = Offset(Float.POSITIVE_INFINITY, 0f),
+        end = Offset(Float.POSITIVE_INFINITY, Float.POSITIVE_INFINITY)
+    )
 }
