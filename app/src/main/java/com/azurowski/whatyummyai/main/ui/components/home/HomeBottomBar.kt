@@ -16,6 +16,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -43,13 +44,16 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.azurowski.whatyummyai.main.ui.theme.GrayStatic
 import com.azurowski.whatyummyai.main.ui.theme.White50
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun HomeBottomBar(navigateToAddRecipe: () -> Unit){
+fun HomeBottomBar(navigateToAddRecipe: () -> Unit,
+                  navigateToSettings: () -> Unit
+){
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -148,6 +152,12 @@ fun HomeBottomBar(navigateToAddRecipe: () -> Unit){
                 IconButton(onClick = navigateToAddRecipe) {
                     Icon(Icons.Filled.Add, contentDescription = "Dodaj przepis")
                 }
+                IconButton(onClick = navigateToSettings ) {
+                    Icon(
+                        Icons.Filled.Settings,
+                        contentDescription = "Ustawienia",
+                    )
+                }
                 IconButton(onClick = { /* do something */ }) {
                     Icon(
                         Icons.Filled.Menu,
@@ -157,4 +167,9 @@ fun HomeBottomBar(navigateToAddRecipe: () -> Unit){
             }
         }
     }
+}
+@Preview
+@Composable
+fun HomeBottomBarPreview(){
+    HomeBottomBar(navigateToAddRecipe = {},navigateToSettings = {})
 }

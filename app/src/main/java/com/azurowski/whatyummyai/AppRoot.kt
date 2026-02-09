@@ -16,9 +16,11 @@ import androidx.navigation.toRoute
 import com.azurowski.whatyummyai.main.ui.screens.AddRecipeRoute
 import com.azurowski.whatyummyai.main.ui.screens.HomeRoute
 import com.azurowski.whatyummyai.main.ui.screens.RecipeRoute
+import com.azurowski.whatyummyai.main.ui.screens.SettingsRoute
 import com.azurowski.whatyummyai.main.ui.screens.home.HomeScreen
 import com.azurowski.whatyummyai.main.ui.screens.recipe.AddRecipeScreen
 import com.azurowski.whatyummyai.main.ui.screens.recipe.RecipeScreen
+import com.azurowski.whatyummyai.main.ui.screens.settings.SettingsScreen
 import com.azurowski.whatyummyai.main.ui.theme.Backgrounds
 
 @Composable
@@ -68,6 +70,21 @@ fun AppNav() {
                 }
             ) {
                 AddRecipeScreen(navController)
+            }
+
+            composable<SettingsRoute>(
+                enterTransition = {
+                    slideInVertically(
+                        initialOffsetY = { it }
+                    )
+                },
+                popExitTransition = {
+                    slideOutVertically(
+                        targetOffsetY = { it }
+                    )
+                }
+            ){
+                SettingsScreen(navController)
             }
         }
     }

@@ -12,4 +12,7 @@ data class RecipeRoute(
 )
 
 @Serializable
+data object SettingsRoute
+
+@Serializable
 data object AddRecipeRoute

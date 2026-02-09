@@ -32,6 +32,7 @@ import com.azurowski.whatyummyai.main.ui.components.home.RecentRecipesSection
 import com.azurowski.whatyummyai.main.ui.components.home.YourKitchenSection
 import com.azurowski.whatyummyai.main.ui.screens.AddRecipeRoute
 import com.azurowski.whatyummyai.main.ui.screens.RecipeRoute
+import com.azurowski.whatyummyai.main.ui.screens.SettingsRoute
 import com.azurowski.whatyummyai.main.ui.theme.White50
 import com.azurowski.whatyummyai.main.ui.theme.getBackground
 
@@ -116,6 +117,6 @@ fun HomeScreen(
 
         }
 
-        HomeBottomBar(navigateToAddRecipe = { navController.navigate(AddRecipeRoute) })
+        HomeBottomBar(navigateToAddRecipe = { navController.navigate(AddRecipeRoute) },navigateToSettings = { navController.navigate(SettingsRoute) })
     }
 }
