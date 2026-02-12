@@ -2,46 +2,70 @@ package com.azurowski.whatyummyai.main.ui.components.addRecipe
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.rememberTextFieldState
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
+import com.azurowski.whatyummyai.main.ui.components.FadingBoxVertical
 
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun AddRecipeForm(){
     Column(
         modifier = Modifier
-            .padding(vertical = 12.dp, horizontal = 30.dp),
+            .fillMaxSize()
+            .padding(start = 30.dp, end = 30.dp, bottom = 24.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ){
-        AddRecipeTextField(
-            state = rememberTextFieldState(),
-            placeholder = "Nazwa przepisu",
-            lineLimits = TextFieldLineLimits.SingleLine
-        )
+        FadingBoxVertical(
+            modifier = Modifier
+                .weight(1f)
+        ){
+            Column(
+                modifier = Modifier
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                Spacer(modifier = Modifier.height(12.dp))
 
-        IngredientFieldGroup()
+                AddRecipeTextField(
+                    state = rememberTextFieldState(),
+                    placeholder = "Nazwa przepisu",
+                    lineLimits = TextFieldLineLimits.SingleLine
+                )
 
-        AddRecipeTextField(
-            state = rememberTextFieldState(),
-            placeholder = "Instrukcje",
-            lineLimits = TextFieldLineLimits.MultiLine(minHeightInLines = 5),
-            keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Default,
-                capitalization = KeyboardCapitalization.Sentences
-            )
-        )
+                IngredientFieldGroup()
 
-        CategoriesSelection()
+                AddRecipeTextField(
+                    state = rememberTextFieldState(),
+                    placeholder = "Instrukcje",
+                    lineLimits = TextFieldLineLimits.MultiLine(minHeightInLines = 5),
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Default,
+                        capitalization = KeyboardCapitalization.Sentences
+                    )
+                )
 
-        Options()
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+        }
 
+
+        Column(
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            CategoriesSelection()
+
+            Options()
+        }
     }
 }
