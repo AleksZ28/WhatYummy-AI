@@ -12,14 +12,16 @@ import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.unit.dp
+import com.azurowski.whatyummyai.main.model.IngredientField
 import com.azurowski.whatyummyai.main.ui.components.FadingBoxVertical
 
 @Composable
-fun AddRecipeForm(){
+fun AddRecipeForm(ingredientsData: SnapshotStateList<IngredientField>){
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -43,7 +45,7 @@ fun AddRecipeForm(){
                     lineLimits = TextFieldLineLimits.SingleLine
                 )
 
-                IngredientFieldGroup()
+                IngredientFieldGroup(ingredientsData)
 
                 AddRecipeTextField(
                     state = rememberTextFieldState(),

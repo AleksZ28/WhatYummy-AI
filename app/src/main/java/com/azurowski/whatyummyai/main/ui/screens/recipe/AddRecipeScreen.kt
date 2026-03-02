@@ -1,5 +1,6 @@
 package com.azurowski.whatyummyai.main.ui.screens.recipe
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,6 +18,8 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,6 +27,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.azurowski.whatyummyai.main.model.IngredientField
 import com.azurowski.whatyummyai.main.ui.components.FormTopBar
 import com.azurowski.whatyummyai.main.ui.components.addRecipe.AddRecipeForm
 import com.azurowski.whatyummyai.main.ui.theme.White50
@@ -31,6 +35,10 @@ import com.azurowski.whatyummyai.main.ui.theme.White50
 @OptIn(ExperimentalMaterial3ExpressiveApi::class, ExperimentalLayoutApi::class)
 @Composable
 fun AddRecipeScreen(navController: NavController){
+
+    val ingredientsData = remember { mutableStateListOf<IngredientField>() }
+    ingredientsData.add(IngredientField())
+
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -47,7 +55,7 @@ fun AddRecipeScreen(navController: NavController){
             ) {
                 FormTopBar(title = "Nowy przepis", navigateBack = { navController.popBackStack() })
 
-                AddRecipeForm()
+                AddRecipeForm(ingredientsData)
             }
         }
 
@@ -59,7 +67,14 @@ fun AddRecipeScreen(navController: NavController){
             contentAlignment = Alignment.Center
         ) {
             Button(
-                onClick = {},
+                onClick = {
+                    if (ingredientsData.isNotEmpty()){
+                        ingredientsData.forEach {
+                            Log.d("INGREDIENT", it.toString())
+                        }
+                    }
+
+                },
                 colors = ButtonDefaults.buttonColors(containerColor = White50, contentColor = Color.Black),
                 modifier = Modifier
                     .fillMaxWidth()
