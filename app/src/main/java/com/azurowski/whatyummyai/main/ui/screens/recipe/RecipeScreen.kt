@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -34,6 +35,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.azurowski.whatyummyai.main.ui.components.FadingBoxVertical
+import com.azurowski.whatyummyai.main.ui.components.recipe.QuickInfoPanel
 import com.azurowski.whatyummyai.main.ui.components.recipe.RecipeCarousel
 import com.azurowski.whatyummyai.main.ui.theme.White50
 
@@ -87,35 +90,43 @@ fun RecipeScreen(navController: NavController, recipeId: String, recipeTitle: St
             }
         }
 
-
-
         Box(
             modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth()
                 .background(color = White50, shape = RoundedCornerShape(45.dp))
         ) {
-
-            Column(
-                modifier = Modifier
-                    .padding(vertical = 30.dp, horizontal = 30.dp)
-                    .verticalScroll(rememberScrollState())
-            ) {
-                RecipeCarousel()
-
-                Text(
-                    text = "Składniki",
-                    style = TextStyle(
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 24.sp,
-                        textAlign = TextAlign.Center
-                    ),
+            FadingBoxVertical(Modifier) {
+                Column(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 32.dp)
-                )
+                        .padding(horizontal = 30.dp)
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    Spacer(modifier = Modifier.height(30.dp))
 
+                    RecipeCarousel()
+
+                    Spacer(modifier = Modifier.height(20.dp))
+
+                    QuickInfoPanel("Śniadanie", 45)
+
+                    Spacer(modifier = Modifier.height(32.dp))
+
+                    Text(
+                        text = "Składniki",
+                        style = TextStyle(
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 24.sp,
+                            textAlign = TextAlign.Center
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    )
+
+                    Spacer(modifier = Modifier.height(32.dp))
+                }
             }
+
 
         }
 
