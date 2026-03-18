@@ -1,5 +1,6 @@
 package com.azurowski.whatyummyai.main.ui.screens.recipe
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,6 +24,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,15 +37,28 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.azurowski.whatyummyai.main.ui.components.FadingBoxVertical
 import com.azurowski.whatyummyai.main.ui.components.recipe.QuickInfoPanel
 import com.azurowski.whatyummyai.main.ui.components.recipe.RecipeCarousel
 import com.azurowski.whatyummyai.main.ui.theme.White50
+import java.util.Locale.getDefault
 
 @Composable
-fun RecipeScreen(navController: NavController, recipeId: String, recipeTitle: String){
+fun RecipeScreen(
+    navController: NavController,
+    recipeViewModel: RecipeViewModel = viewModel(),
+    recipeId: String, recipeTitle: String
+){
+    val recipe by recipeViewModel.recipe.collectAsState()
+
+    LaunchedEffect(Unit) {
+        recipeViewModel.fetchRecipe(recipeId)
+        Log.d("Recipe", "Recipe: $recipe")
+    }
+
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -108,7 +125,13 @@ fun RecipeScreen(navController: NavController, recipeId: String, recipeTitle: St
 
                     Spacer(modifier = Modifier.height(20.dp))
 
-                    QuickInfoPanel("Śniadanie", 45)
+                    if (recipe.id.isNotEmpty()) {
+                        QuickInfoPanel(recipe.categories[0].replaceFirstChar {
+                            if (it.isLowerCase()) it.titlecase(
+                                getDefault()
+                            ) else it.toString()
+                        }, recipe.totalMinutes)
+                    }
 
                     Spacer(modifier = Modifier.height(32.dp))
 
