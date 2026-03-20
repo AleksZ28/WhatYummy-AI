@@ -1,7 +1,11 @@
 package com.azurowski.whatyummyai
 
-import android.content.Context
+import java.util.Locale.getDefault
 
-fun dpToPx(dp: Int, context: Context): Int {
-    return (dp * context.resources.displayMetrics.density).toInt()
+fun String.capitalizeFirst(): String {
+    return this.replaceFirstChar {
+        if (it.isLowerCase()) it.titlecase(
+            getDefault()
+        ) else it.toString()
+    }
 }

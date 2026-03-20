@@ -6,23 +6,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -31,26 +21,25 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.azurowski.whatyummyai.capitalizeFirst
 import com.azurowski.whatyummyai.main.ui.components.FadingBoxVertical
 import com.azurowski.whatyummyai.main.ui.components.recipe.IngredientListItem
 import com.azurowski.whatyummyai.main.ui.components.recipe.QuickInfoPanel
+import com.azurowski.whatyummyai.main.ui.components.recipe.RecipeBottomBar
 import com.azurowski.whatyummyai.main.ui.components.recipe.RecipeCarousel
+import com.azurowski.whatyummyai.main.ui.components.recipe.RecipeHeader
 import com.azurowski.whatyummyai.main.ui.screens.home.KitchenViewModel
 import com.azurowski.whatyummyai.main.ui.theme.White50
-import java.util.Locale.getDefault
 
 @Composable
 fun RecipeScreen(
@@ -89,49 +78,7 @@ fun RecipeScreen(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .statusBarsPadding()
-                .padding(start = 48.dp, end = 48.dp, top = 8.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp)
-                    .background(color = White50, RoundedCornerShape(100))
-                    .padding(horizontal = 4.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                IconButton(
-                    onClick = { navController.popBackStack() },
-                ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Wstecz",
-                    )
-                }
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = recipeTitle,
-                        style = TextStyle(
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 16.sp
-                        ),
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier
-                            .padding(end = 8.dp)
-                    )
-                }
-            }
-        }
+        RecipeHeader(navBack = { navController.popBackStack() }, recipeTitle)
 
         Box(
             modifier = Modifier
@@ -152,11 +99,7 @@ fun RecipeScreen(
 
                     if (recipe.id.isNotEmpty()) {
                         item {
-                            QuickInfoPanel(recipe.categories[0].replaceFirstChar {
-                                if (it.isLowerCase()) it.titlecase(
-                                    getDefault()
-                                ) else it.toString()
-                            }, recipe.totalMinutes, portionCount)
+                            QuickInfoPanel(recipe.categories[0].capitalizeFirst(), recipe.totalMinutes, portionCount)
                             Spacer(modifier = Modifier.height(24.dp))
                         }
                     }
@@ -182,38 +125,7 @@ fun RecipeScreen(
             }
         }
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .navigationBarsPadding()
-                .padding(start = 24.dp, end = 24.dp, bottom = 8.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(color = White50, shape = RoundedCornerShape(999.dp))
-                    .padding(horizontal = 4.dp),
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                Button(
-                    onClick = { },
-                    colors = ButtonDefaults.buttonColors(containerColor = White50, contentColor = Color.Black),
-                    modifier = Modifier
-                        .weight(1f)
-                ) {
-                    Text("Edytuj")
-                }
-                Button(
-                    onClick = { },
-                    colors = ButtonDefaults.buttonColors(containerColor = White50, contentColor = Color.Black),
-                    modifier = Modifier
-                        .weight(1f)
-                ) {
-                    Text("Usuń")
-                }
-            }
-        }
+        RecipeBottomBar()
     }
 }
 
