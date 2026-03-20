@@ -21,10 +21,20 @@ class RecipeViewModel : ViewModel() {
             .get()
             .addOnSuccessListener { document ->
                 if (document != null) {
+                    val ingredientsRaw = document.get("ingredients") as? List<Map<String, Any>> ?: emptyList()
+
+                    val ingredients = ingredientsRaw.map {
+                        Ingredient(
+                            ingredient = it["ingredient"] as? String ?: "",
+                            unit = it["unit"] as? String ?: "",
+                            amount = (it["amount"] as? Number)?.toDouble() ?: 0.0,
+                        )
+                    }
+
                     val recipe = Recipe(
                         id = document.id,
                         title = document.getString("title") ?: "",
-                        ingredients = document.get("ingredients") as? List<Ingredient> ?: emptyList(),
+                        ingredients = ingredients,
                         instructions = document.get("instructions") as? List<String> ?: emptyList(),
                         categories = document.get("categories") as? List<String> ?: emptyList(),
                         totalMinutes = document.getLong("totalMinutes")?.toInt() ?: 0,

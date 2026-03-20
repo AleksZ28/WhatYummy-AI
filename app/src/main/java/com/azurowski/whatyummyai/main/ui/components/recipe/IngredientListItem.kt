@@ -1,0 +1,58 @@
+package com.azurowski.whatyummyai.main.ui.components.recipe
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.azurowski.whatyummyai.main.model.Ingredient
+import com.azurowski.whatyummyai.main.ui.theme.White50
+
+@Composable
+fun IngredientListItem(ingredient: Ingredient){
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(20.dp))
+//            .clickable(
+//                onClick = {  },
+//                interactionSource = remember { MutableInteractionSource() },
+//                indication = ripple()
+//            ) TODO
+            .background(color = White50)
+            .padding(horizontal = 16.dp)
+            .height(48.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = ingredient.ingredient,
+            style = TextStyle(
+                fontWeight = FontWeight.Medium
+            )
+        )
+        Text(
+            text = ingredient.amount.toString() + " " + ingredient.unit,
+            style = TextStyle(
+                fontWeight = FontWeight.Medium
+            )
+        )
+    }
+}
+
+@Composable
+@Preview
+fun Preview(){
+    IngredientListItem(Ingredient(100.0, "Mleko", "ml"))
+}

@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,9 +14,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Button
@@ -41,6 +42,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.azurowski.whatyummyai.main.ui.components.FadingBoxVertical
+import com.azurowski.whatyummyai.main.ui.components.recipe.IngredientListItem
 import com.azurowski.whatyummyai.main.ui.components.recipe.QuickInfoPanel
 import com.azurowski.whatyummyai.main.ui.components.recipe.RecipeCarousel
 import com.azurowski.whatyummyai.main.ui.theme.White50
@@ -114,43 +116,46 @@ fun RecipeScreen(
                 .background(color = White50, shape = RoundedCornerShape(45.dp))
         ) {
             FadingBoxVertical(Modifier) {
-                Column(
-                    modifier = Modifier
-                        .padding(horizontal = 30.dp)
-                        .verticalScroll(rememberScrollState())
+
+                LazyColumn(
+                    contentPadding = PaddingValues(horizontal = 30.dp, vertical = 30.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    Spacer(modifier = Modifier.height(30.dp))
-
-                    RecipeCarousel()
-
-                    Spacer(modifier = Modifier.height(20.dp))
-
-                    if (recipe.id.isNotEmpty()) {
-                        QuickInfoPanel(recipe.categories[0].replaceFirstChar {
-                            if (it.isLowerCase()) it.titlecase(
-                                getDefault()
-                            ) else it.toString()
-                        }, recipe.totalMinutes)
+                    item {
+                        RecipeCarousel()
+                        Spacer(modifier = Modifier.height(12.dp))
                     }
 
-                    Spacer(modifier = Modifier.height(32.dp))
+                    if (recipe.id.isNotEmpty()) {
+                        item {
+                            QuickInfoPanel(recipe.categories[0].replaceFirstChar {
+                                if (it.isLowerCase()) it.titlecase(
+                                    getDefault()
+                                ) else it.toString()
+                            }, recipe.totalMinutes)
+                            Spacer(modifier = Modifier.height(24.dp))
+                        }
+                    }
 
-                    Text(
-                        text = "Składniki",
-                        style = TextStyle(
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 24.sp,
-                            textAlign = TextAlign.Center
-                        ),
-                        modifier = Modifier
-                            .fillMaxWidth()
-                    )
+                    item {
+                        Text(
+                            text = "Składniki",
+                            style = TextStyle(
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 24.sp,
+                                textAlign = TextAlign.Center
+                            ),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        )
+                        Spacer(modifier = Modifier.height(12.dp))
+                    }
 
-                    Spacer(modifier = Modifier.height(32.dp))
+                    items(recipe.ingredients) { ingredient ->
+                        IngredientListItem(ingredient)
+                    }
                 }
             }
-
-
         }
 
         Box(
