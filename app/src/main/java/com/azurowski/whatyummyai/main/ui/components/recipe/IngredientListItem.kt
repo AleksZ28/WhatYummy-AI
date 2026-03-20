@@ -17,10 +17,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.azurowski.whatyummyai.main.model.Ingredient
+import com.azurowski.whatyummyai.main.ui.theme.LightGreen50
 import com.azurowski.whatyummyai.main.ui.theme.White50
 
 @Composable
-fun IngredientListItem(ingredient: Ingredient){
+fun IngredientListItem(ingredient: Ingredient, inKitchen: Boolean){
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -30,7 +31,7 @@ fun IngredientListItem(ingredient: Ingredient){
 //                interactionSource = remember { MutableInteractionSource() },
 //                indication = ripple()
 //            ) TODO
-            .background(color = White50)
+            .background(color = if (inKitchen) LightGreen50 else White50)
             .padding(horizontal = 16.dp)
             .height(48.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -54,5 +55,5 @@ fun IngredientListItem(ingredient: Ingredient){
 @Composable
 @Preview
 fun Preview(){
-    IngredientListItem(Ingredient(100.0, "Mleko", "ml"))
+    IngredientListItem(Ingredient(100.0, "Mleko", "ml"), true)
 }

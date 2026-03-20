@@ -27,7 +27,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -45,6 +47,7 @@ import com.azurowski.whatyummyai.main.ui.components.FadingBoxVertical
 import com.azurowski.whatyummyai.main.ui.components.recipe.IngredientListItem
 import com.azurowski.whatyummyai.main.ui.components.recipe.QuickInfoPanel
 import com.azurowski.whatyummyai.main.ui.components.recipe.RecipeCarousel
+import com.azurowski.whatyummyai.main.ui.screens.home.KitchenViewModel
 import com.azurowski.whatyummyai.main.ui.theme.White50
 import java.util.Locale.getDefault
 
@@ -52,12 +55,28 @@ import java.util.Locale.getDefault
 fun RecipeScreen(
     navController: NavController,
     recipeViewModel: RecipeViewModel = viewModel(),
+    kitchenViewModel: KitchenViewModel = viewModel(),
     recipeId: String, recipeTitle: String
 ){
     val recipe by recipeViewModel.recipe.collectAsState()
+    val kitchenItems by kitchenViewModel.kitchenItems.collectAsState()
+
+    val annotatedIngredients by remember(recipe, kitchenItems) {
+        derivedStateOf {
+            val kitchenNamesSet = kitchenItems.map { it.name.lowercase().trim() }.toSet()
+            recipe.ingredients.map { ingredient ->
+                val ingredientName = ingredient.ingredient.lowercase()
+                val inKitchen = kitchenNamesSet.any { kitchenItem ->
+                    ingredientName.contains(kitchenItem) || kitchenItem.contains(ingredientName)
+                }
+                ingredient to inKitchen
+            }.sortedByDescending {it.second}
+        }
+    }
 
     LaunchedEffect(Unit) {
         recipeViewModel.fetchRecipe(recipeId)
+        kitchenViewModel.observeItems()
         Log.d("Recipe", "Recipe: $recipe")
     }
 
@@ -151,8 +170,8 @@ fun RecipeScreen(
                         Spacer(modifier = Modifier.height(12.dp))
                     }
 
-                    items(recipe.ingredients) { ingredient ->
-                        IngredientListItem(ingredient)
+                    items(annotatedIngredients) { (ingredient, inKitchen) ->
+                        IngredientListItem(ingredient, inKitchen)
                     }
                 }
             }
