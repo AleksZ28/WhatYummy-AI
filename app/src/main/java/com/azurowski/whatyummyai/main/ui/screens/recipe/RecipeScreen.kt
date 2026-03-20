@@ -29,6 +29,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -61,7 +62,9 @@ fun RecipeScreen(
     val recipe by recipeViewModel.recipe.collectAsState()
     val kitchenItems by kitchenViewModel.kitchenItems.collectAsState()
 
-    val annotatedIngredients by remember(recipe, kitchenItems) {
+    val portionCount = remember { mutableIntStateOf(1) }
+
+    val annotatedIngredients by remember(recipe, kitchenItems, portionCount) {
         derivedStateOf {
             val kitchenNamesSet = kitchenItems.map { it.name.lowercase().trim() }.toSet()
             recipe.ingredients.map { ingredient ->
@@ -69,7 +72,9 @@ fun RecipeScreen(
                 val inKitchen = kitchenNamesSet.any { kitchenItem ->
                     ingredientName.contains(kitchenItem) || kitchenItem.contains(ingredientName)
                 }
-                ingredient to inKitchen
+                val updatedIngredient = ingredient.copy(amount = ingredient.amount * portionCount.intValue)
+
+                updatedIngredient to inKitchen
             }.sortedByDescending {it.second}
         }
     }
@@ -151,7 +156,7 @@ fun RecipeScreen(
                                 if (it.isLowerCase()) it.titlecase(
                                     getDefault()
                                 ) else it.toString()
-                            }, recipe.totalMinutes)
+                            }, recipe.totalMinutes, portionCount)
                             Spacer(modifier = Modifier.height(24.dp))
                         }
                     }

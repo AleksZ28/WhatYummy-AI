@@ -44,7 +44,7 @@ fun IngredientListItem(ingredient: Ingredient, inKitchen: Boolean){
             )
         )
         Text(
-            text = ingredient.amount.toString() + " " + ingredient.unit,
+            text = "%.2f".format(ingredient.amount) + " " + ingredient.unit,
             style = TextStyle(
                 fontWeight = FontWeight.Medium
             )

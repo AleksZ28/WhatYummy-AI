@@ -14,8 +14,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.MutableIntState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
@@ -37,9 +36,7 @@ fun PortionButton(increment: Boolean, onClick: () -> Unit){
 }
 
 @Composable
-fun QuickInfoPanel(category: String, minutes: Int){
-    val portionCount = remember { mutableIntStateOf(1) }
-
+fun QuickInfoPanel(category: String, minutes: Int, portionCount: MutableIntState){
     Row(
         modifier = Modifier
             .fillMaxWidth()
