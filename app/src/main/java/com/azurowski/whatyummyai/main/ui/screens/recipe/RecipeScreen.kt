@@ -146,7 +146,7 @@ fun RecipeScreen(
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     item {
-                        RecipeCarousel()
+                        RecipeCarousel(recipe.imageUrls)
                         Spacer(modifier = Modifier.height(12.dp))
                     }
 

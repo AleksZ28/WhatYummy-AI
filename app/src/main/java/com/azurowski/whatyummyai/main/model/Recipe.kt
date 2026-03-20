@@ -13,7 +13,7 @@ data class Recipe(
     val public: Boolean = false,
     val authorId: String = "",
     val authorName: String = "",
-    val imageUrl: String = "",
+    val imageUrls: List<String> = emptyList(),
     val createdAt: Timestamp = Timestamp.now()
 )
 

@@ -42,7 +42,7 @@ class RecipeViewModel : ViewModel() {
                         public = document.getBoolean("public") ?: false,
                         authorId = document.getString("authorId") ?: "",
                         authorName = document.getString("authorName") ?: "",
-                        imageUrl = document.getString("imageUrl") ?: "",
+                        imageUrls = document.get("imageUrls") as? List<String> ?: emptyList(),
                         createdAt = document.getTimestamp("createdAt") ?: Timestamp.now()
                     )
 
