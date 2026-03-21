@@ -31,7 +31,6 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.azurowski.whatyummyai.capitalizeFirst
 import com.azurowski.whatyummyai.main.ui.components.FadingBoxVertical
 import com.azurowski.whatyummyai.main.ui.components.recipe.IngredientListItem
 import com.azurowski.whatyummyai.main.ui.components.recipe.QuickInfoPanel
@@ -99,7 +98,7 @@ fun RecipeScreen(
 
                     if (recipe.id.isNotEmpty()) {
                         item {
-                            QuickInfoPanel(recipe.categories[0].capitalizeFirst(), recipe.totalMinutes, portionCount)
+                            QuickInfoPanel(recipe.categories, recipe.totalMinutes, portionCount)
                             Spacer(modifier = Modifier.height(24.dp))
                         }
                     }

@@ -1,6 +1,7 @@
 package com.azurowski.whatyummyai.main.ui.components.recipe
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.basicMarquee
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -41,13 +42,22 @@ fun IngredientListItem(ingredient: Ingredient, inKitchen: Boolean){
             text = ingredient.ingredient,
             style = TextStyle(
                 fontWeight = FontWeight.Medium
-            )
+            ),
+            modifier = Modifier
+                .weight(1f)
+                .padding(end = 8.dp)
+                .basicMarquee(
+                    iterations = Int.MAX_VALUE,
+                    velocity = 20.dp,
+                    repeatDelayMillis = 3000
+                )
         )
         Text(
             text = "%.2f".format(ingredient.amount) + " " + ingredient.unit,
             style = TextStyle(
                 fontWeight = FontWeight.Medium
-            )
+            ),
+            maxLines = 1
         )
     }
 }

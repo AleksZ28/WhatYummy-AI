@@ -1,5 +1,6 @@
 package com.azurowski.whatyummyai.main.ui.components.recipe
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -14,14 +15,21 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableIntState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.azurowski.whatyummyai.capitalizeFirst
 import com.azurowski.whatyummyai.main.ui.theme.White50
+import kotlinx.coroutines.delay
 
 @Composable
 fun PortionButton(increment: Boolean, onClick: () -> Unit){
@@ -36,7 +44,19 @@ fun PortionButton(increment: Boolean, onClick: () -> Unit){
 }
 
 @Composable
-fun QuickInfoPanel(category: String, minutes: Int, portionCount: MutableIntState){
+fun QuickInfoPanel(categories: List<String>, minutes: Int, portionCount: MutableIntState){
+
+    var currentCategoryIndex by remember { mutableIntStateOf(0) }
+
+    LaunchedEffect(Unit) {
+        if (categories.size > 1) {
+            while (true) {
+                delay(2000)
+                currentCategoryIndex = (currentCategoryIndex + 1) % categories.size
+            }
+        }
+    }
+
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -45,13 +65,19 @@ fun QuickInfoPanel(category: String, minutes: Int, portionCount: MutableIntState
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Text(
-            text = category,
-            style = TextStyle(
-                fontWeight = FontWeight.Bold,
-                fontSize = 16.sp
+
+        AnimatedContent(
+            targetState = currentCategoryIndex,
+            label = "animated content"
+        ) { targetIndex ->
+            Text(
+                text = categories[targetIndex].capitalizeFirst(),
+                style = TextStyle(
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp
+                )
             )
-        )
+        }
 
         Text(
             text = "$minutes min",
