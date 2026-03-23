@@ -12,4 +12,9 @@ data class RecipeRoute(
 )
 
 @Serializable
+data class CookingRoute(
+    val recipeId: String
+)
+
+@Serializable
 data object AddRecipeRoute
