@@ -83,7 +83,7 @@ fun RecipeScreen(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        RecipeHeader(navBack = { navController.popBackStack() }, recipeTitle)
+        RecipeHeader(navBack = { navController.navigateUp() }, recipeTitle)
 
         Box(
             modifier = Modifier

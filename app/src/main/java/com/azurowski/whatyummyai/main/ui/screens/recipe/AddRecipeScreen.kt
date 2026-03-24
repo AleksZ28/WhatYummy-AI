@@ -53,7 +53,7 @@ fun AddRecipeScreen(navController: NavController){
             Column(
                 modifier = Modifier.statusBarsPadding()
             ) {
-                FormTopBar(title = "Nowy przepis", navigateBack = { navController.popBackStack() })
+                FormTopBar(title = "Nowy przepis", navigateBack = { navController.navigateUp() })
 
                 AddRecipeForm(ingredientsData)
             }
