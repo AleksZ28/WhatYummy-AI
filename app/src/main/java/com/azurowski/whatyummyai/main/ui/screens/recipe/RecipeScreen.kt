@@ -134,7 +134,7 @@ fun RecipeScreen(
             }
 
             Button(
-                onClick = { navController.navigate(CookingRoute(recipeId)) },
+                onClick = { navController.navigate(CookingRoute(recipeId, recipeTitle)) },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.White,
                     contentColor = Color.Black

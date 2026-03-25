@@ -9,8 +9,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -23,6 +25,7 @@ import com.azurowski.whatyummyai.main.ui.screens.cooking.CookingScreen
 import com.azurowski.whatyummyai.main.ui.screens.home.HomeScreen
 import com.azurowski.whatyummyai.main.ui.screens.recipe.AddRecipeScreen
 import com.azurowski.whatyummyai.main.ui.screens.recipe.RecipeScreen
+import com.azurowski.whatyummyai.main.ui.screens.recipe.RecipeViewModel
 import com.azurowski.whatyummyai.main.ui.theme.Backgrounds
 
 @Composable
@@ -73,9 +76,17 @@ fun AppNav() {
             ) { backStackEntry ->
                 val args = backStackEntry.toRoute<CookingRoute>()
 
+                val parentEntry = remember(backStackEntry) {
+                    navController.getBackStackEntry(RecipeRoute(args.recipeId, args.recipeTitle))
+                }
+
+                val sharedRecipeViewModel: RecipeViewModel = viewModel(viewModelStoreOwner = parentEntry)
+
                 CookingScreen(
                     navController = navController,
-                    recipeId = args.recipeId
+                    recipeViewModel = sharedRecipeViewModel,
+                    recipeId = args.recipeId,
+                    recipeTitle = args.recipeTitle
                 )
             }
 

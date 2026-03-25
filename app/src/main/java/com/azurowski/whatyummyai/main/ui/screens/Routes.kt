@@ -13,7 +13,8 @@ data class RecipeRoute(
 
 @Serializable
 data class CookingRoute(
-    val recipeId: String
+    val recipeId: String,
+    val recipeTitle: String
 )
 
 @Serializable
