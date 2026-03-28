@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.graphicsLayer
 
 @Composable
-fun FadingBoxVertical(modifier: Modifier, content: @Composable () -> Unit) {
+fun FadingBoxVertical(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
     Box(
         modifier = modifier
             .graphicsLayer {

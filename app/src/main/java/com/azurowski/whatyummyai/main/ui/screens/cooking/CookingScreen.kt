@@ -4,9 +4,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -16,6 +21,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.azurowski.whatyummyai.main.ui.components.NoBackTopBar
 import com.azurowski.whatyummyai.main.ui.components.OneButtonBottomBar
+import com.azurowski.whatyummyai.main.ui.components.cooking.RemainingStepsText
+import com.azurowski.whatyummyai.main.ui.components.cooking.StepItem
+import com.azurowski.whatyummyai.main.ui.components.cooking.StepsIndicatorRow
 import com.azurowski.whatyummyai.main.ui.screens.recipe.RecipeViewModel
 import com.azurowski.whatyummyai.main.ui.theme.White50
 
@@ -27,6 +35,10 @@ fun CookingScreen(
     recipeTitle: String
 ){
     val recipe by recipeViewModel.recipe.collectAsState()
+    val pagerState = rememberPagerState(pageCount = {
+        recipe.instructions.size
+    })
+    val listState = rememberLazyListState()
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -38,11 +50,29 @@ fun CookingScreen(
                 .fillMaxWidth()
                 .background(color = White50, shape = RoundedCornerShape(topStart = 0.dp, topEnd = 0.dp, bottomStart = 45.dp, bottomEnd = 45.dp))
         ) {
-
             Column(
                 modifier = Modifier.statusBarsPadding()
             ) {
                 NoBackTopBar(recipeTitle)
+
+                if (recipe.instructions.isNotEmpty()){
+                    Column(
+                        modifier = Modifier.fillMaxSize()
+                    ){
+                        HorizontalPager(
+                            state = pagerState,
+                            modifier = Modifier.weight(1f)
+                        ) { page ->
+                            StepItem(stepIndex = page, instruction = recipe.instructions[page])
+                        }
+
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        RemainingStepsText(pagerState.pageCount - pagerState.currentPage - 1)
+
+                        StepsIndicatorRow(listState = listState, pagerState = pagerState)
+                    }
+                }
             }
         }
 

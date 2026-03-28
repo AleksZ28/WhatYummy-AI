@@ -66,10 +66,7 @@ fun QuickInfoPanel(categories: List<String>, minutes: Int, portionCount: Mutable
         verticalAlignment = Alignment.CenterVertically
     ) {
 
-        AnimatedContent(
-            targetState = currentCategoryIndex,
-            label = "animated content"
-        ) { targetIndex ->
+        AnimatedContent(targetState = currentCategoryIndex) { targetIndex ->
             Text(
                 text = categories[targetIndex].capitalizeFirst(),
                 style = TextStyle(
