@@ -34,6 +34,7 @@ import com.azurowski.whatyummyai.main.ui.screens.AddRecipeRoute
 import com.azurowski.whatyummyai.main.ui.screens.RecipeRoute
 import com.azurowski.whatyummyai.main.ui.theme.White50
 import com.azurowski.whatyummyai.main.ui.theme.getBackground
+import com.frosch2010.fuzzywuzzy_kotlin.FuzzySearch
 
 @Composable
 fun HomeScreen(
@@ -41,22 +42,33 @@ fun HomeScreen(
     homeViewModel: HomeViewModel = viewModel(),
     kitchenViewModel: KitchenViewModel = viewModel()
 ){
-    val textFieldState = remember { TextFieldState() }
-
-    val searchList = listOf(
-        "Test"
-    )
-
-    val searchResults = searchList.filter {
-        it.contains(textFieldState.text.toString(), ignoreCase = true)
-    }
 
     val recipes by homeViewModel.recipes.collectAsState()
     val kitchenItems by kitchenViewModel.kitchenItems.collectAsState()
+    val textFieldState = remember { TextFieldState() }
+    val openDialog = remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         homeViewModel.fetchRecipes()
         kitchenViewModel.observeItems()
+    }
+
+    val searchResults = remember(textFieldState.text, recipes) {
+        val query = textFieldState.text.toString()
+        if (query.isBlank()) {
+            recipes
+        } else {
+            val topResults = FuzzySearch.extractTop(
+                query,
+                recipes.map { it.title },
+                10,
+                70
+            )
+
+            topResults.mapNotNull { result ->
+                recipes.find { it.title == result.string }
+            }
+        }
     }
 
     val context = LocalContext.current
@@ -65,8 +77,6 @@ fun HomeScreen(
     }
 
     val themeId = prefs.getInt("themeId", 1)
-
-    val openDialog = remember { mutableStateOf(false) }
 
     AddKitchenItemDialog(
         showDialog = openDialog.value,
@@ -84,7 +94,10 @@ fun HomeScreen(
                 println("Szukam: $query")
             },
             searchResults = searchResults,
-            placeholderText = "Szukaj przepisu..."
+            placeholderText = "Szukaj przepisu...",
+            onRecipeClick = { recipeId, recipeTitle ->
+                navController.navigate(RecipeRoute(recipeId, recipeTitle))
+            }
         )
 
         Box(

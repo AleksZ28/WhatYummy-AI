@@ -1,20 +1,14 @@
 package com.azurowski.whatyummyai.main.ui.components
 
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.input.TextFieldState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
@@ -30,7 +24,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.unit.dp
-import com.azurowski.whatyummyai.main.ui.theme.White25
+import com.azurowski.whatyummyai.main.model.RecipeSummary
 import com.azurowski.whatyummyai.main.ui.theme.White50
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -38,8 +32,9 @@ import com.azurowski.whatyummyai.main.ui.theme.White50
 fun SearchBar(
     textFieldState: TextFieldState,
     onSearch: (String) -> Unit,
-    searchResults: List<String>,
-    placeholderText: String
+    searchResults: List<RecipeSummary>,
+    placeholderText: String,
+    onRecipeClick: (String, String) -> Unit
 ) {
     var expanded by rememberSaveable { mutableStateOf(false) }
     val horizontalPadding by animateDpAsState(
@@ -72,25 +67,18 @@ fun SearchBar(
                 )
             },
             colors = SearchBarDefaults.colors(
-                containerColor = White50
+                containerColor = White50,
+                dividerColor = Color.Transparent
             ),
             expanded = expanded,
             onExpandedChange = { expanded = it },
         ) {
-
-            Column(Modifier.verticalScroll(rememberScrollState())) {
-                searchResults.forEach { result ->
-                    ListItem(
-                        headlineContent = { Text(result) },
-                        colors = ListItemDefaults.colors(containerColor = White25),
-                        modifier = Modifier
-                            .clickable {
-                                textFieldState.edit { replace(0, length, result) }
-                                expanded = false
-                            }
-                            .fillMaxWidth()
-                    )
-                }
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp)
+            ){
+                FadingLazyColumn(searchResults, onRecipeClick)
             }
         }
     }

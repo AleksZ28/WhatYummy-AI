@@ -14,7 +14,7 @@ fun FadingLazyColumn(items: List<RecipeSummary>, onRecipeClick: (String, String)
     FadingBoxVertical(modifier = Modifier) {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(8.dp),
-            contentPadding = PaddingValues(vertical = 20.dp)
+            contentPadding = PaddingValues(top = 24.dp, bottom = 64.dp)
         ) {
             items(items) {
                 RecipeListItem(it, onRecipeClick)

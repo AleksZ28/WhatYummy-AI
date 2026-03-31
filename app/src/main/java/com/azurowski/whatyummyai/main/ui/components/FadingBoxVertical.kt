@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun FadingBoxVertical(modifier: Modifier = Modifier, content: @Composable () -> Unit) {
@@ -18,11 +19,11 @@ fun FadingBoxVertical(modifier: Modifier = Modifier, content: @Composable () -> 
                 compositingStrategy = CompositingStrategy.Offscreen
             }
             .drawWithCache {
-                val fadeWidth = 0.08f
+                val fadeSizePx = 32.dp.toPx()
                 val fadeBrush = Brush.verticalGradient(
                     0.0f to Color.Transparent,
-                    fadeWidth to Color.Black,
-                    (1.0f - fadeWidth) to Color.Black,
+                    fadeSizePx / size.height to Color.Black,
+                    (size.height - fadeSizePx) / size.height to Color.Black,
                     1.0f to Color.Transparent
                 )
 

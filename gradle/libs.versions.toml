@@ -3,6 +3,7 @@ agp = "9.0.1"
 coilCompose = "3.4.0"
 credentials = "1.5.0"
 firebaseBom = "34.11.0"
+fuzzywuzzyKotlin = "1.0.1"
 googleid = "1.2.0"
 kotlin = "2.3.20"
 coreKtx = "1.18.0"
@@ -35,6 +36,7 @@ firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-auth = { module = "com.google.firebase:firebase-auth" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore" }
+fuzzywuzzy-kotlin = { module = "com.github.jens-muenker:fuzzywuzzy-kotlin", version.ref = "fuzzywuzzyKotlin" }
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
