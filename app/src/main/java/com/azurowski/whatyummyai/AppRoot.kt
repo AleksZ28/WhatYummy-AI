@@ -22,6 +22,7 @@ import com.azurowski.whatyummyai.main.ui.screens.CookingRoute
 import com.azurowski.whatyummyai.main.ui.screens.HomeRoute
 import com.azurowski.whatyummyai.main.ui.screens.RecipeRoute
 import com.azurowski.whatyummyai.main.ui.screens.cooking.CookingScreen
+import com.azurowski.whatyummyai.main.ui.screens.cooking.CookingViewModel
 import com.azurowski.whatyummyai.main.ui.screens.home.HomeScreen
 import com.azurowski.whatyummyai.main.ui.screens.recipe.AddRecipeScreen
 import com.azurowski.whatyummyai.main.ui.screens.recipe.RecipeScreen
@@ -81,10 +82,12 @@ fun AppNav() {
                 }
 
                 val sharedRecipeViewModel: RecipeViewModel = viewModel(viewModelStoreOwner = parentEntry)
+                val cookingViewModel: CookingViewModel = viewModel()
 
                 CookingScreen(
                     navController = navController,
                     recipeViewModel = sharedRecipeViewModel,
+                    cookingViewModel = cookingViewModel,
                     recipeId = args.recipeId,
                     recipeTitle = args.recipeTitle
                 )

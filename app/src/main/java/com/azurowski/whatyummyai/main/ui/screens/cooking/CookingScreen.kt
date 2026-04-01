@@ -14,6 +14,7 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -26,11 +27,13 @@ import com.azurowski.whatyummyai.main.ui.components.cooking.StepItem
 import com.azurowski.whatyummyai.main.ui.components.cooking.StepsIndicatorRow
 import com.azurowski.whatyummyai.main.ui.screens.recipe.RecipeViewModel
 import com.azurowski.whatyummyai.main.ui.theme.White50
+import kotlinx.coroutines.delay
 
 @Composable
 fun CookingScreen(
     navController: NavController,
     recipeViewModel: RecipeViewModel,
+    cookingViewModel: CookingViewModel,
     recipeId: String,
     recipeTitle: String
 ){
@@ -39,6 +42,13 @@ fun CookingScreen(
         recipe.instructions.size
     })
     val listState = rememberLazyListState()
+
+    LaunchedEffect(Unit, pagerState.currentPage, recipe.instructions) {
+        if (recipe.instructions.isNotEmpty()) {
+            delay(400)
+            cookingViewModel.speakStep(pagerState.currentPage, recipe.instructions[pagerState.currentPage])
+        }
+    }
 
     Column(
         modifier = Modifier.fillMaxSize(),
