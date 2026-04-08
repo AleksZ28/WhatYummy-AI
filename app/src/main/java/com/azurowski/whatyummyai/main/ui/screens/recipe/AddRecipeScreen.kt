@@ -12,14 +12,12 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.azurowski.whatyummyai.main.model.IngredientField
 import com.azurowski.whatyummyai.main.ui.components.FormTopBar
 import com.azurowski.whatyummyai.main.ui.components.OneButtonBottomBar
 import com.azurowski.whatyummyai.main.ui.components.addRecipe.AddRecipeForm
@@ -27,10 +25,13 @@ import com.azurowski.whatyummyai.main.ui.theme.White50
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class, ExperimentalLayoutApi::class)
 @Composable
-fun AddRecipeScreen(navController: NavController){
+fun AddRecipeScreen(
+    navController: NavController,
+    addRecipeViewModel: AddRecipeViewModel = viewModel()
+){
 
-    val ingredientsData = remember { mutableStateListOf<IngredientField>() }
-    ingredientsData.add(IngredientField())
+    val ingredientsData by addRecipeViewModel.ingredientsData.collectAsState()
+    val instructions by addRecipeViewModel.instructions.collectAsState()
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -48,7 +49,12 @@ fun AddRecipeScreen(navController: NavController){
             ) {
                 FormTopBar(title = "Nowy przepis", navigateBack = { navController.navigateUp() })
 
-                AddRecipeForm(ingredientsData)
+                AddRecipeForm(
+                    ingredientsData,
+                    instructions,
+                    onAddIngredient = { addRecipeViewModel.addIngredient() },
+                    onAddInstruction = { addRecipeViewModel.addInstruction() },
+                )
             }
         }
 
@@ -62,8 +68,8 @@ fun AddRecipeScreen(navController: NavController){
     }
 }
 
-@Preview
-@Composable
-fun AddRecipeScreenPreview(){
-    AddRecipeScreen(navController = NavController(context = LocalContext.current))
-}
+//@Preview
+//@Composable
+//fun AddRecipeScreenPreview(){
+//    AddRecipeScreen(navController = NavController(context = LocalContext.current))
+//}

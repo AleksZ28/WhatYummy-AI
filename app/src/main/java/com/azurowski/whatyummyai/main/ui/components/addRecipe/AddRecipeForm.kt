@@ -4,24 +4,27 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.input.TextFieldLineLimits
+import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.azurowski.whatyummyai.main.model.IngredientField
 import com.azurowski.whatyummyai.main.ui.components.FadingBoxVertical
 
 @Composable
-fun AddRecipeForm(ingredientsData: SnapshotStateList<IngredientField>){
+fun AddRecipeForm(ingredientsData: List<IngredientField>, instructions: List<TextFieldState>, onAddIngredient: () -> Unit, onAddInstruction: () -> Unit){
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -45,17 +48,29 @@ fun AddRecipeForm(ingredientsData: SnapshotStateList<IngredientField>){
                     lineLimits = TextFieldLineLimits.SingleLine
                 )
 
-                IngredientFieldGroup(ingredientsData)
-
-                AddRecipeTextField(
-                    state = rememberTextFieldState(),
-                    placeholder = "Instrukcje",
-                    lineLimits = TextFieldLineLimits.MultiLine(minHeightInLines = 5),
-                    keyboardOptions = KeyboardOptions(
-                        imeAction = ImeAction.Default,
-                        capitalization = KeyboardCapitalization.Sentences
+                Text(
+                    text = "Składniki",
+                    modifier = Modifier.padding(top = 8.dp).fillMaxWidth(),
+                    style = TextStyle(
+                        textAlign = TextAlign.Center,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Medium
                     )
                 )
+
+                IngredientFieldGroup(ingredientsData, onAddIngredient)
+
+                Text(
+                    text = "Instrukcje",
+                    modifier = Modifier.padding(top = 8.dp).fillMaxWidth(),
+                    style = TextStyle(
+                        textAlign = TextAlign.Center,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                )
+
+                InstructionFieldGroup(instructions, onAddInstruction)
 
                 Spacer(modifier = Modifier.height(16.dp))
             }
