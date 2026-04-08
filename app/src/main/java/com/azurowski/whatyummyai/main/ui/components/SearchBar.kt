@@ -1,7 +1,9 @@
 package com.azurowski.whatyummyai.main.ui.components
 
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.input.TextFieldState
@@ -21,6 +23,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.traversalIndex
 import androidx.compose.ui.unit.dp
@@ -41,6 +45,7 @@ fun SearchBar(
         targetValue = if (expanded) 0.dp else 48.dp,
         label = "searchBarHorizontalPadding"
     )
+    val focusManager = LocalFocusManager.current
 
     Box(
         modifier = Modifier
@@ -75,8 +80,9 @@ fun SearchBar(
         ) {
             Box(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxSize()
                     .padding(horizontal = 16.dp)
+                    .pointerInput(Unit) { detectTapGestures(onTap = { focusManager.clearFocus() })}
             ){
                 FadingLazyColumn(searchResults, onRecipeClick)
             }
