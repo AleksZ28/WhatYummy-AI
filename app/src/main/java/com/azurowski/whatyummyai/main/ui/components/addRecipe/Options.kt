@@ -6,32 +6,41 @@ import androidx.compose.material3.SegmentedButton
 import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import com.azurowski.whatyummyai.main.ui.theme.White50
 
 @Composable
-fun Options(){
+fun Options(
+    isPublic: Boolean,
+    isGlutenFree: Boolean,
+    onPublicToggle: () -> Unit,
+    onGlutenFreeToggle: () -> Unit
+) {
     val options = listOf("Private", "GlutenFree")
-    val selectedOptions = remember {
-        mutableStateListOf(false, false)
-    }
 
     MultiChoiceSegmentedButtonRow(
         modifier = Modifier.fillMaxWidth()
     ) {
         options.forEachIndexed { index, label ->
+            val isChecked = when (label) {
+                "Private" -> !isPublic
+                "GlutenFree" -> isGlutenFree
+                else -> false
+            }
+
             SegmentedButton(
                 shape = SegmentedButtonDefaults.itemShape(
                     index = index,
                     count = options.size
                 ),
-                checked = selectedOptions[index],
+                checked = isChecked,
                 onCheckedChange = {
-                    selectedOptions[index] = !selectedOptions[index]
+                    when (label) {
+                        "Private" -> onPublicToggle()
+                        "GlutenFree" -> onGlutenFreeToggle()
+                    }
                 },
-                icon = { SegmentedButtonDefaults.Icon(selectedOptions[index]) },
+                icon = { SegmentedButtonDefaults.Icon(isChecked) },
                 label = {
                     when (label) {
                         "Private" -> Text("Prywatny")

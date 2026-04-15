@@ -9,7 +9,11 @@ import androidx.compose.ui.unit.dp
 import com.azurowski.whatyummyai.main.model.IngredientField
 
 @Composable
-fun IngredientFieldGroup(ingredientsData: List<IngredientField>, onAddIngredient: () -> Unit){
+fun IngredientFieldGroup(
+    ingredientsData: List<IngredientField>,
+    onAddIngredient: () -> Unit,
+    onUnitSelected: (Int, String) -> Unit
+){
     val lastField = ingredientsData.last()
 
     LaunchedEffect(lastField) {
@@ -23,8 +27,11 @@ fun IngredientFieldGroup(ingredientsData: List<IngredientField>, onAddIngredient
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        ingredientsData.forEach{ data ->
-            IngredientField(data)
+        ingredientsData.forEachIndexed { index, data ->
+            IngredientField(
+                fieldData = data,
+                onUnitSelected = { unit -> onUnitSelected(index, unit) }
+            )
         }
     }
 }

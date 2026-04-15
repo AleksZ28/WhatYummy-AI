@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.TextFieldState
-import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,7 +23,20 @@ import com.azurowski.whatyummyai.main.model.IngredientField
 import com.azurowski.whatyummyai.main.ui.components.FadingBoxVertical
 
 @Composable
-fun AddRecipeForm(ingredientsData: List<IngredientField>, instructions: List<TextFieldState>, onAddIngredient: () -> Unit, onAddInstruction: () -> Unit){
+fun AddRecipeForm(
+    title: TextFieldState,
+    ingredientsData: List<IngredientField>,
+    instructions: List<TextFieldState>,
+    selectedCategories: List<String>,
+    isPublic: Boolean,
+    isGlutenFree: Boolean,
+    onAddIngredient: () -> Unit,
+    onUnitSelected: (Int, String) -> Unit,
+    onAddInstruction: () -> Unit,
+    onCategoryToggle: (String) -> Unit,
+    onPublicToggle: () -> Unit,
+    onGlutenFreeToggle: () -> Unit
+){
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -43,9 +55,9 @@ fun AddRecipeForm(ingredientsData: List<IngredientField>, instructions: List<Tex
                 Spacer(modifier = Modifier.height(12.dp))
 
                 AddRecipeTextField(
-                    state = rememberTextFieldState(),
+                    state = title,
                     placeholder = "Nazwa przepisu",
-                    lineLimits = TextFieldLineLimits.SingleLine
+                    lineLimits = TextFieldLineLimits.SingleLine,
                 )
 
                 Text(
@@ -58,7 +70,11 @@ fun AddRecipeForm(ingredientsData: List<IngredientField>, instructions: List<Tex
                     )
                 )
 
-                IngredientFieldGroup(ingredientsData, onAddIngredient)
+                IngredientFieldGroup(
+                    ingredientsData = ingredientsData,
+                    onAddIngredient = onAddIngredient,
+                    onUnitSelected = onUnitSelected
+                )
 
                 Text(
                     text = "Instrukcje",
@@ -80,9 +96,17 @@ fun AddRecipeForm(ingredientsData: List<IngredientField>, instructions: List<Tex
         Column(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            CategoriesSelection()
+            CategoriesSelection(
+                selectedCategories = selectedCategories,
+                onCategoryToggle = onCategoryToggle
+            )
 
-            Options()
+            Options(
+                isPublic = isPublic,
+                isGlutenFree = isGlutenFree,
+                onPublicToggle = onPublicToggle,
+                onGlutenFreeToggle = onGlutenFreeToggle
+            )
         }
     }
 }

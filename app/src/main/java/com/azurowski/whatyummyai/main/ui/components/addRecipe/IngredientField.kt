@@ -27,12 +27,15 @@ import com.azurowski.whatyummyai.main.model.IngredientField
 import com.azurowski.whatyummyai.main.ui.theme.White50
 
 @Composable
-fun IngredientField(fieldData: IngredientField) {
+fun IngredientField(
+    fieldData: IngredientField,
+    onUnitSelected: (String) -> Unit
+) {
     val openUnitDialog = remember { mutableStateOf(false) }
     val units = listOf("szt", "g", "kg", "mg", "ml", "l", "szczypty", "łyżeczki", "łyżki", "szklanki")
 
     fun selectUnit(unit: String) {
-        fieldData.unit.value = unit
+        onUnitSelected(unit)
         openUnitDialog.value = false
     }
 
@@ -94,7 +97,7 @@ fun IngredientField(fieldData: IngredientField) {
                 shape = RoundedCornerShape(8.dp)
             ) {
                 Text(
-                    text = fieldData.unit.value.ifEmpty { "Wybierz jednostkę" },
+                    text = fieldData.unit.ifEmpty { "Wybierz jednostkę" },
                     textAlign = TextAlign.Center
                 )
             }

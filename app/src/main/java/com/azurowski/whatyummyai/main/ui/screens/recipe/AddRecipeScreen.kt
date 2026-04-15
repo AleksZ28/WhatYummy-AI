@@ -1,6 +1,5 @@
 package com.azurowski.whatyummyai.main.ui.screens.recipe
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -30,8 +29,7 @@ fun AddRecipeScreen(
     addRecipeViewModel: AddRecipeViewModel = viewModel()
 ){
 
-    val ingredientsData by addRecipeViewModel.ingredientsData.collectAsState()
-    val instructions by addRecipeViewModel.instructions.collectAsState()
+    val state by addRecipeViewModel.state.collectAsState()
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -50,20 +48,24 @@ fun AddRecipeScreen(
                 FormTopBar(title = "Nowy przepis", navigateBack = { navController.navigateUp() })
 
                 AddRecipeForm(
-                    ingredientsData,
-                    instructions,
+                    title = state.title,
+                    ingredientsData = state.ingredients,
+                    instructions = state.instructions,
+                    selectedCategories = state.categories,
+                    isPublic = state.public,
+                    isGlutenFree = state.glutenFree,
                     onAddIngredient = { addRecipeViewModel.addIngredient() },
+                    onUnitSelected = { index, unit -> addRecipeViewModel.updateIngredientUnit(index, unit) },
                     onAddInstruction = { addRecipeViewModel.addInstruction() },
+                    onCategoryToggle = { addRecipeViewModel.toggleCategory(it) },
+                    onPublicToggle = { addRecipeViewModel.togglePublic() },
+                    onGlutenFreeToggle = { addRecipeViewModel.toggleGlutenFree() }
                 )
             }
         }
 
         OneButtonBottomBar(text = "Dodaj przepis", onClick = {
-            if (ingredientsData.isNotEmpty()) {
-                ingredientsData.forEach {
-                    Log.d("INGREDIENT", it.toString())
-                }
-            }
+            
         })
     }
 }
