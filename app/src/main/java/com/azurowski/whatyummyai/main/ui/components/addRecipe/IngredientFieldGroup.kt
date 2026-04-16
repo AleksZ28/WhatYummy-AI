@@ -25,7 +25,7 @@ fun IngredientFieldGroup(
     }
 
     Column(
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         ingredientsData.forEachIndexed { index, data ->
             IngredientField(

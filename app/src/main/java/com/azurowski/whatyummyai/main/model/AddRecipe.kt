@@ -4,6 +4,8 @@ import androidx.compose.foundation.text.input.TextFieldState
 
 data class AddRecipeState(
     val title: TextFieldState = TextFieldState(),
+    val totalMinutes: TextFieldState = TextFieldState(),
+    val timeUnit: String = "min",
     val ingredients: List<IngredientField> = listOf(IngredientField()),
     val instructions: List<TextFieldState> = listOf(TextFieldState()),
     val categories: List<String> = emptyList(),

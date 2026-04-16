@@ -15,9 +15,9 @@ import androidx.compose.ui.unit.dp
 import com.azurowski.whatyummyai.main.ui.theme.White50
 
 @Composable
-fun AddRecipeTextField(state: TextFieldState, placeholder: String, lineLimits: TextFieldLineLimits, keyboardOptions: KeyboardOptions = KeyboardOptions()){
+fun AddRecipeTextField(modifier: Modifier = Modifier, state: TextFieldState, placeholder: String, lineLimits: TextFieldLineLimits, keyboardOptions: KeyboardOptions = KeyboardOptions()){
     TextField(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         state = state,
         placeholder = { Text(placeholder) },
         shape = RoundedCornerShape(8.dp),

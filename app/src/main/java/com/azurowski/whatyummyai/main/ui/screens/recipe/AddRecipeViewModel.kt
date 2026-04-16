@@ -27,6 +27,10 @@ class AddRecipeViewModel : ViewModel() {
         _state.value = _state.value.copy(instructions = _state.value.instructions + TextFieldState())
     }
 
+    fun updateTimeUnit(unit: String) {
+        _state.value = _state.value.copy(timeUnit = unit)
+    }
+
     fun toggleCategory(category: String) {
         val currentCategories = _state.value.categories.toMutableList()
         if (currentCategories.contains(category)) {

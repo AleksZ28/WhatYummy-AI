@@ -49,6 +49,8 @@ fun AddRecipeScreen(
 
                 AddRecipeForm(
                     title = state.title,
+                    totalMinutes = state.totalMinutes,
+                    timeUnit = state.timeUnit,
                     ingredientsData = state.ingredients,
                     instructions = state.instructions,
                     selectedCategories = state.categories,
@@ -56,6 +58,7 @@ fun AddRecipeScreen(
                     isGlutenFree = state.glutenFree,
                     onAddIngredient = { addRecipeViewModel.addIngredient() },
                     onUnitSelected = { index, unit -> addRecipeViewModel.updateIngredientUnit(index, unit) },
+                    onTimeUnitSelected = { addRecipeViewModel.updateTimeUnit(it) },
                     onAddInstruction = { addRecipeViewModel.addInstruction() },
                     onCategoryToggle = { addRecipeViewModel.toggleCategory(it) },
                     onPublicToggle = { addRecipeViewModel.togglePublic() },
