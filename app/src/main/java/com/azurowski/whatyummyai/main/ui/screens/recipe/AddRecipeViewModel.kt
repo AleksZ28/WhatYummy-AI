@@ -1,5 +1,6 @@
 package com.azurowski.whatyummyai.main.ui.screens.recipe
 
+import android.net.Uri
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.lifecycle.ViewModel
 import com.azurowski.whatyummyai.main.model.AddRecipeState
@@ -29,6 +30,16 @@ class AddRecipeViewModel : ViewModel() {
 
     fun updateTimeUnit(unit: String) {
         _state.value = _state.value.copy(timeUnit = unit)
+    }
+
+    fun addImages(uris: List<Uri>) {
+        val remaining = 3 - state.value.images.size
+        val toAdd = uris.take(remaining)
+        _state.value = _state.value.copy(images = _state.value.images + toAdd)
+    }
+
+    fun removeImage(uri: Uri) {
+        _state.value = _state.value.copy(images = _state.value.images - uri)
     }
 
     fun toggleCategory(category: String) {

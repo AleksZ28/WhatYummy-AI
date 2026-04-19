@@ -1,5 +1,8 @@
 package com.azurowski.whatyummyai.main.ui.screens.recipe
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -31,6 +34,13 @@ fun AddRecipeScreen(
 
     val state by addRecipeViewModel.state.collectAsState()
 
+    val pickMultipleMedia =
+        rememberLauncherForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(3)) { uris ->
+        if (uris.isNotEmpty()) {
+            addRecipeViewModel.addImages(uris)
+        }
+    }
+
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -51,6 +61,7 @@ fun AddRecipeScreen(
                     title = state.title,
                     totalMinutes = state.totalMinutes,
                     timeUnit = state.timeUnit,
+                    images = state.images,
                     ingredientsData = state.ingredients,
                     instructions = state.instructions,
                     selectedCategories = state.categories,
@@ -59,6 +70,10 @@ fun AddRecipeScreen(
                     onAddIngredient = { addRecipeViewModel.addIngredient() },
                     onUnitSelected = { index, unit -> addRecipeViewModel.updateIngredientUnit(index, unit) },
                     onTimeUnitSelected = { addRecipeViewModel.updateTimeUnit(it) },
+                    onAddImages = {
+                        pickMultipleMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                    },
+                    onRemoveImage = { addRecipeViewModel.removeImage(it) },
                     onAddInstruction = { addRecipeViewModel.addInstruction() },
                     onCategoryToggle = { addRecipeViewModel.toggleCategory(it) },
                     onPublicToggle = { addRecipeViewModel.togglePublic() },

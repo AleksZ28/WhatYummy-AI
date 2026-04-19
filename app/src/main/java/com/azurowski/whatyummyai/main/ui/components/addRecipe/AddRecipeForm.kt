@@ -1,5 +1,6 @@
 package com.azurowski.whatyummyai.main.ui.components.addRecipe
 
+import android.net.Uri
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,6 +38,7 @@ fun AddRecipeForm(
     title: TextFieldState,
     totalMinutes: TextFieldState,
     timeUnit: String,
+    images: List<Uri>,
     ingredientsData: List<IngredientField>,
     instructions: List<TextFieldState>,
     selectedCategories: List<String>,
@@ -45,6 +47,8 @@ fun AddRecipeForm(
     onAddIngredient: () -> Unit,
     onUnitSelected: (Int, String) -> Unit,
     onTimeUnitSelected: (String) -> Unit,
+    onAddImages: () -> Unit,
+    onRemoveImage: (Uri) -> Unit,
     onAddInstruction: () -> Unit,
     onCategoryToggle: (String) -> Unit,
     onPublicToggle: () -> Unit,
@@ -81,6 +85,14 @@ fun AddRecipeForm(
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
                 Spacer(modifier = Modifier.height(12.dp))
+
+                ImagePickerSection(
+                    images = images,
+                    onAddImages = onAddImages,
+                    onRemoveImage = onRemoveImage
+                )
+
+                Spacer(modifier = Modifier.height(8.dp))
 
                 AddRecipeTextField(
                     state = title,
