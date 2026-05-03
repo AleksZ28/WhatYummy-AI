@@ -1,5 +1,6 @@
 package com.azurowski.whatyummyai.main.ui.components.cooking
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -65,6 +66,7 @@ fun StepsIndicatorRow(listState: LazyListState, pagerState: PagerState) {
                 .fillMaxWidth()
                 .padding(vertical = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center,
             contentPadding = PaddingValues(horizontal = 24.dp)
         ) {
             items(pagerState.pageCount) { iteration ->

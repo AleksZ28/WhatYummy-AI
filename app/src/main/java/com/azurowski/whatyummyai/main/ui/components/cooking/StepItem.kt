@@ -2,6 +2,7 @@ package com.azurowski.whatyummyai.main.ui.components.cooking
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -23,7 +24,7 @@ import com.azurowski.whatyummyai.main.ui.theme.GrayText
 fun StepItem(stepIndex: Int, instruction: String) {
     FadingBoxVertical() {
         Column(
-            modifier = Modifier.padding(horizontal = 24.dp).verticalScroll(rememberScrollState()),
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp).verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.height(12.dp))
