@@ -1,9 +1,10 @@
 package com.azurowski.whatyummyai.main.model
 
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.Exclude
 
 data class Recipe(
-    val id: String = "",
+    @get:Exclude val id: String = "",
     val title: String = "",
     val ingredients: List<Ingredient> = emptyList(),
     val instructions: List<String> = emptyList(),

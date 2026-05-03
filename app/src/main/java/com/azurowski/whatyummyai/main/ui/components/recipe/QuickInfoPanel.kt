@@ -50,6 +50,7 @@ fun QuickInfoPanel(categories: List<String>, minutes: Int, portionCount: Mutable
 
     LaunchedEffect(Unit) {
         if (categories.size > 1) {
+            currentCategoryIndex = 0
             while (true) {
                 delay(2000)
                 currentCategoryIndex = (currentCategoryIndex + 1) % categories.size
@@ -67,8 +68,13 @@ fun QuickInfoPanel(categories: List<String>, minutes: Int, portionCount: Mutable
     ) {
 
         AnimatedContent(targetState = currentCategoryIndex) { targetIndex ->
+            val categoryText = if (categories.isNotEmpty()) {
+                categories.getOrNull(targetIndex)?.capitalizeFirst() ?: ""
+            } else {
+                "Bez kategorii"
+            }
             Text(
-                text = categories[targetIndex].capitalizeFirst(),
+                text = categoryText,
                 style = TextStyle(
                     fontWeight = FontWeight.Bold,
                     fontSize = 16.sp

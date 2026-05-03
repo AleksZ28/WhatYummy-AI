@@ -90,4 +90,5 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.coil.network.okhttp)
     implementation(libs.fuzzywuzzy.kotlin)
+    implementation(libs.cloudinary.android)
 }

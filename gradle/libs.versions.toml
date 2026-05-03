@@ -1,5 +1,6 @@
 [versions]
 agp = "9.0.1"
+cloudinaryAndroid = "3.1.2"
 coilCompose = "3.4.0"
 credentials = "1.5.0"
 firebaseBom = "34.11.0"
@@ -30,6 +31,7 @@ androidx-compose-material3-v150alpha12 = { module = "androidx.compose.material3:
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-credentials = { module = "androidx.credentials:credentials", version.ref = "credentials" }
 androidx-credentials-play-services-auth = { module = "androidx.credentials:credentials-play-services-auth", version.ref = "credentials" }
+cloudinary-android = { module = "com.cloudinary:cloudinary-android", version.ref = "cloudinaryAndroid" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coilCompose" }
 coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coilCompose" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }

@@ -59,7 +59,7 @@ fun AddRecipeScreen(
 
                 AddRecipeForm(
                     title = state.title,
-                    totalMinutes = state.totalMinutes,
+                    totalTime = state.totalTime,
                     timeUnit = state.timeUnit,
                     images = state.images,
                     ingredientsData = state.ingredients,
@@ -82,9 +82,14 @@ fun AddRecipeScreen(
             }
         }
 
-        OneButtonBottomBar(text = "Dodaj przepis", onClick = {
-            
-        })
+        OneButtonBottomBar(
+            text = if (state.isSaving) "Zapisywanie..." else "Dodaj przepis",
+            onClick = {
+                addRecipeViewModel.saveRecipe {
+                    navController.navigateUp()
+                }
+            }
+        )
     }
 }
 

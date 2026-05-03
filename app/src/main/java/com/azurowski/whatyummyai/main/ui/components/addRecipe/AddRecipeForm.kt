@@ -36,7 +36,7 @@ import com.azurowski.whatyummyai.main.ui.theme.White50
 @Composable
 fun AddRecipeForm(
     title: TextFieldState,
-    totalMinutes: TextFieldState,
+    totalTime: TextFieldState,
     timeUnit: String,
     images: List<Uri>,
     ingredientsData: List<IngredientField>,
@@ -106,7 +106,7 @@ fun AddRecipeForm(
                 ) {
                     AddRecipeTextField(
                         modifier = Modifier.weight(1f),
-                        state = totalMinutes,
+                        state = totalTime,
                         placeholder = "Czas przygotowania",
                         lineLimits = TextFieldLineLimits.SingleLine,
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
