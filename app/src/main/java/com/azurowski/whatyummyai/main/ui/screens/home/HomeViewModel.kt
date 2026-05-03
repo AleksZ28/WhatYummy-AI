@@ -30,10 +30,14 @@ class HomeViewModel : ViewModel() {
             .get()
             .addOnSuccessListener { result ->
                 val items = result.map { document ->
+                    val ingredientsRaw = document.get("ingredients") as? List<Map<String, Any>> ?: emptyList()
+                    val ingredientNames = ingredientsRaw.map { it["ingredient"] as? String ?: "" }
+
                     RecipeSummary(
                         id = document.id,
                         title = document.getString("title") ?: "",
                         isGlutenFree = document.getBoolean("isGlutenFree") ?: false,
+                        ingredientNames = ingredientNames
                     )
                 }
                 _recipes.value = items

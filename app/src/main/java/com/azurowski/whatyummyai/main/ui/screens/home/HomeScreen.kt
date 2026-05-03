@@ -48,6 +48,23 @@ fun HomeScreen(
     val textFieldState = remember { TextFieldState() }
     val openDialog = remember { mutableStateOf(false) }
 
+    val filteredRecipes = remember(recipes, kitchenItems) {
+        if (kitchenItems.isEmpty()) {
+            emptyList()
+        } else {
+            recipes.filter { recipe ->
+                recipe.ingredientNames.any() { ingredient ->
+                    kitchenItems.any { kitchenItem ->
+                        FuzzySearch.partialRatio(
+                            ingredient.lowercase(),
+                            kitchenItem.name.lowercase()
+                        ) > 70
+                    }
+                }
+            }
+        }
+    }
+
     LaunchedEffect(Unit) {
         homeViewModel.fetchRecipes()
         kitchenViewModel.observeItems()
@@ -118,7 +135,7 @@ fun HomeScreen(
                 YourKitchenSection(
                     kitchenItems = kitchenItems,
                     onDelete = { kitchenViewModel.deleteItem(it) },
-                    recipes = recipes,
+                    recipes = filteredRecipes,
                     onRecipeClick = { recipeId, recipeTitle ->
                         navController.navigate(RecipeRoute(recipeId, recipeTitle))
                     }

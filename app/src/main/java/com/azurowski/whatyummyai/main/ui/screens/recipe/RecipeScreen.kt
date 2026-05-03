@@ -45,6 +45,7 @@ import com.azurowski.whatyummyai.main.ui.components.recipe.RecipeHeader
 import com.azurowski.whatyummyai.main.ui.screens.CookingRoute
 import com.azurowski.whatyummyai.main.ui.screens.home.KitchenViewModel
 import com.azurowski.whatyummyai.main.ui.theme.White50
+import com.frosch2010.fuzzywuzzy_kotlin.FuzzySearch
 
 @Composable
 fun RecipeScreen(
@@ -60,11 +61,13 @@ fun RecipeScreen(
 
     val annotatedIngredients by remember(recipe, kitchenItems, portionCount) {
         derivedStateOf {
-            val kitchenNamesSet = kitchenItems.map { it.name.lowercase().trim() }.toSet()
             recipe.ingredients.map { ingredient ->
                 val ingredientName = ingredient.ingredient.lowercase()
-                val inKitchen = kitchenNamesSet.any { kitchenItem ->
-                    ingredientName.contains(kitchenItem) || kitchenItem.contains(ingredientName)
+                val inKitchen = kitchenItems.any { kitchenItem ->
+                    FuzzySearch.partialRatio(
+                        ingredientName,
+                        kitchenItem.name.lowercase().trim()
+                    ) > 70
                 }
                 val updatedIngredient = ingredient.copy(amount = ingredient.amount * portionCount.intValue)
 
