@@ -1,5 +1,6 @@
 package com.azurowski.whatyummyai.main.ui.screens.recipe
 
+import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -29,11 +30,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.edit
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.azurowski.whatyummyai.main.ui.components.FadingBoxVertical
@@ -56,6 +59,7 @@ fun RecipeScreen(
 ){
     val recipe by recipeViewModel.recipe.collectAsState()
     val kitchenItems by kitchenViewModel.kitchenItems.collectAsState()
+    val context = LocalContext.current
 
     val portionCount = remember { mutableIntStateOf(1) }
 
@@ -80,6 +84,18 @@ fun RecipeScreen(
         recipeViewModel.fetchRecipe(recipeId)
         kitchenViewModel.observeItems()
         Log.d("Recipe", "Recipe: $recipe")
+
+        val prefs = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val currentRecent = prefs.getString("recentRecipeIds", "") ?: ""
+        val idsList = if (currentRecent.isEmpty()) mutableListOf() else currentRecent.split(",").toMutableList()
+
+        idsList.remove(recipeId)
+        idsList.add(0, recipeId)
+
+        val updatedList = idsList.take(2)
+        val updatedString = updatedList.joinToString(",")
+        
+        prefs.edit { putString("recentRecipeIds", updatedString) }
     }
 
     Column(

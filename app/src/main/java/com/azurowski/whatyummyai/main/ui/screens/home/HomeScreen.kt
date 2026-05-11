@@ -44,10 +44,18 @@ fun HomeScreen(
 ){
 
     val recipes by homeViewModel.recipes.collectAsState()
+    val recentRecipes by homeViewModel.recentRecipes.collectAsState()
     val kitchenItems by kitchenViewModel.kitchenItems.collectAsState()
     val textFieldState = remember { TextFieldState() }
     val openDialog = remember { mutableStateOf(false) }
     val selectedCategory = remember { mutableStateOf("Wszystkie") }
+
+    val context = LocalContext.current
+    val prefs = remember {
+        context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+    }
+
+    val themeId = prefs.getInt("themeId", 1)
 
     val filteredRecipes = remember(recipes, kitchenItems, selectedCategory.value) {
         if (kitchenItems.isEmpty()) {
@@ -72,6 +80,11 @@ fun HomeScreen(
     LaunchedEffect(Unit) {
         homeViewModel.fetchRecipes()
         kitchenViewModel.observeItems()
+
+        val currentRecent = prefs.getString("recentRecipeIds", "") ?: ""
+        if (currentRecent.isNotEmpty()) {
+            homeViewModel.setRecentRecipeIds(currentRecent.split(","))
+        }
     }
 
     val searchResults = remember(textFieldState.text, recipes) {
@@ -91,13 +104,6 @@ fun HomeScreen(
             }
         }
     }
-
-    val context = LocalContext.current
-    val prefs = remember {
-        context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
-    }
-
-    val themeId = prefs.getInt("themeId", 1)
 
     AddKitchenItemDialog(
         showDialog = openDialog.value,
@@ -132,7 +138,12 @@ fun HomeScreen(
                 modifier = Modifier
                     .padding(vertical = 40.dp, horizontal = 30.dp)
             ) {
-                RecentRecipesSection()
+                RecentRecipesSection(
+                    recipes = recentRecipes,
+                    onRecipeClick = { recipeId, recipeTitle ->
+                        navController.navigate(RecipeRoute(recipeId, recipeTitle))
+                    }
+                )
 
                 Spacer(modifier = Modifier.height(16.dp))
 

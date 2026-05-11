@@ -15,7 +15,27 @@ class HomeViewModel : ViewModel() {
 
     private val _recipes = MutableStateFlow<List<RecipeSummary>>(emptyList())
     val recipes: StateFlow<List<RecipeSummary>> = _recipes
+
+    private val _recentRecipes = MutableStateFlow<List<RecipeSummary>>(emptyList())
+    val recentRecipes: StateFlow<List<RecipeSummary>> = _recentRecipes
+
+    private var currentRecentIds: List<String> = emptyList()
+
     val user = FirebaseAuth.getInstance().currentUser
+
+    fun setRecentRecipeIds(ids: List<String>) {
+        currentRecentIds = ids
+        updateRecentRecipes()
+    }
+
+    private fun updateRecentRecipes() {
+        val allRecipes = _recipes.value
+        if (allRecipes.isEmpty()) return
+        
+        _recentRecipes.value = currentRecentIds.mapNotNull { id ->
+            allRecipes.find { it.id == id }
+        }
+    }
 
     fun fetchRecipes() {
         val userId = user?.uid
@@ -42,6 +62,7 @@ class HomeViewModel : ViewModel() {
                     )
                 }
                 _recipes.value = items
+                updateRecentRecipes()
             }
     }
 }

@@ -89,7 +89,7 @@ fun YourKitchenSection(kitchenItems: List<KitchenItem>, onDelete: (String) -> Un
     if (recipes.isNotEmpty()) {
         FadingLazyColumn(recipes, onRecipeClick)
     } else {
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(12.dp))
         Text(
             text = "Nie znaleziono przepisów",
             style = TextStyle(
