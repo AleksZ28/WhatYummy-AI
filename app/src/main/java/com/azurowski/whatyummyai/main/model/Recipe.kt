@@ -23,6 +23,7 @@ data class RecipeSummary(
     val title: String = "",
     val isGlutenFree: Boolean = false,
     val ingredientNames: List<String> = emptyList(),
+    val categories: List<String>
 )
 
 data class Ingredient(

@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -13,7 +12,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.ButtonDefaults
@@ -49,7 +47,11 @@ import com.azurowski.whatyummyai.main.ui.theme.White50
 
 @OptIn(ExperimentalMaterial3ExpressiveApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun HomeBottomBar(navigateToAddRecipe: () -> Unit){
+fun HomeBottomBar(
+    navigateToAddRecipe: () -> Unit,
+    selectedCategory: String,
+    onCategorySelected: (String) -> Unit
+){
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -70,16 +72,10 @@ fun HomeBottomBar(navigateToAddRecipe: () -> Unit){
                 SplitButtonLayout(
                     leadingButton = {
                         SplitButtonDefaults.LeadingButton(
-                            onClick = { /* Do Nothing */ },
+                            onClick = { onCategorySelected("Wszystkie") },
                             colors = ButtonDefaults.buttonColors(containerColor = White50, contentColor = Color.Black)
                         ) {
-                            Icon(
-                                Icons.Filled.Edit,
-                                modifier = Modifier.size(SplitButtonDefaults.LeadingIconSize),
-                                contentDescription = "Localized description",
-                            )
-                            Spacer(Modifier.size(ButtonDefaults.IconSpacing))
-                            Text("Śniadanie")
+                            Text(selectedCategory)
                         }
                     },
                     trailingButton = {
@@ -128,18 +124,17 @@ fun HomeBottomBar(navigateToAddRecipe: () -> Unit){
                 shape = RoundedCornerShape(16.dp),
                 containerColor = GrayStatic
             ) {
-                DropdownMenuItem(
-                    text = { Text("Śniadanie") },
-                    onClick = { /* Handle edit! */ },
-                )
-                DropdownMenuItem(
-                    text = { Text("Obiad") },
-                    onClick = { /* Handle settings! */ },
-                )
-                DropdownMenuItem(
-                    text = { Text("Kolacja") },
-                    onClick = { /* Handle send feedback! */ },
-                )
+                val categories = listOf("Wszystkie", "Śniadanie", "Obiad", "Kolacja", "Deser", "Przekąska", "Napój")
+
+                categories.forEach { category ->
+                    DropdownMenuItem(
+                        text = { Text(category) },
+                        onClick = {
+                            onCategorySelected(category)
+                            checked = false
+                        }
+                    )
+                }
             }
 
 

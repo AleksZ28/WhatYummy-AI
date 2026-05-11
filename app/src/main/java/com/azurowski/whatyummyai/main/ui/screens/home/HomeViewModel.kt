@@ -37,7 +37,8 @@ class HomeViewModel : ViewModel() {
                         id = document.id,
                         title = document.getString("title") ?: "",
                         isGlutenFree = document.getBoolean("isGlutenFree") ?: false,
-                        ingredientNames = ingredientNames
+                        ingredientNames = ingredientNames,
+                        categories = document.get("categories") as? List<String> ?: emptyList()
                     )
                 }
                 _recipes.value = items

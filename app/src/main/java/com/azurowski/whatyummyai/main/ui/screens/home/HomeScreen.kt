@@ -47,13 +47,17 @@ fun HomeScreen(
     val kitchenItems by kitchenViewModel.kitchenItems.collectAsState()
     val textFieldState = remember { TextFieldState() }
     val openDialog = remember { mutableStateOf(false) }
+    val selectedCategory = remember { mutableStateOf("Wszystkie") }
 
-    val filteredRecipes = remember(recipes, kitchenItems) {
+    val filteredRecipes = remember(recipes, kitchenItems, selectedCategory.value) {
         if (kitchenItems.isEmpty()) {
             emptyList()
         } else {
             recipes.filter { recipe ->
-                recipe.ingredientNames.any() { ingredient ->
+                val categoryMatch = selectedCategory.value == "Wszystkie" || recipe.categories.any {
+                    it.equals(selectedCategory.value, ignoreCase = true)
+                }
+                categoryMatch && recipe.ingredientNames.any() { ingredient ->
                     kitchenItems.any { kitchenItem ->
                         FuzzySearch.partialRatio(
                             ingredient.lowercase(),
@@ -146,6 +150,10 @@ fun HomeScreen(
 
         }
 
-        HomeBottomBar(navigateToAddRecipe = { navController.navigate(AddRecipeRoute) })
+        HomeBottomBar(
+            navigateToAddRecipe = { navController.navigate(AddRecipeRoute) },
+            selectedCategory = selectedCategory.value,
+            onCategorySelected = { selectedCategory.value = it }
+        )
     }
 }
