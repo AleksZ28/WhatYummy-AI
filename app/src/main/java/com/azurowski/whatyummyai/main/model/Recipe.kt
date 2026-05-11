@@ -2,6 +2,7 @@ package com.azurowski.whatyummyai.main.model
 
 import com.google.firebase.Timestamp
 import com.google.firebase.firestore.Exclude
+import com.google.firebase.firestore.PropertyName
 
 data class Recipe(
     @get:Exclude val id: String = "",
@@ -10,7 +11,7 @@ data class Recipe(
     val instructions: List<String> = emptyList(),
     val categories: List<String> = emptyList(),
     val totalMinutes: Int = 0,
-    val isGlutenFree: Boolean = false,
+    @get:PropertyName("isGlutenFree") val isGlutenFree: Boolean = false,
     val public: Boolean = false,
     val authorId: String = "",
     val authorName: String = "",
