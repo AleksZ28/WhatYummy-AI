@@ -7,6 +7,7 @@ import androidx.compose.material3.SegmentedButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.azurowski.whatyummyai.main.ui.theme.LightGreenGluten
 import com.azurowski.whatyummyai.main.ui.theme.White50
 
 @Composable
@@ -47,7 +48,7 @@ fun Options(
                         "GlutenFree" -> Text("Bezglutenowe")
                     }
                 },
-                colors = SegmentedButtonDefaults.colors(activeContainerColor = White50)
+                colors = SegmentedButtonDefaults.colors(activeContainerColor = if (label == "GlutenFree") LightGreenGluten else White50)
             )
         }
     }

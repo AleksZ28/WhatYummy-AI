@@ -48,13 +48,14 @@ fun HomeScreen(
     val textFieldState = remember { TextFieldState() }
     val openDialog = remember { mutableStateOf(false) }
     val selectedCategory = remember { mutableStateOf("Wszystkie") }
+    val onlyGlutenFree = remember { mutableStateOf(false) }
 
     val context = LocalContext.current
     val prefs = remember {
         context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
     }
 
-    val filteredRecipes = remember(recipes, kitchenItems, selectedCategory.value) {
+    val filteredRecipes = remember(recipes, kitchenItems, selectedCategory.value, onlyGlutenFree.value) {
         if (kitchenItems.isEmpty()) {
             emptyList()
         } else {
@@ -62,7 +63,8 @@ fun HomeScreen(
                 val categoryMatch = selectedCategory.value == "Wszystkie" || recipe.categories.any {
                     it.equals(selectedCategory.value, ignoreCase = true)
                 }
-                categoryMatch && recipe.ingredientNames.any() { ingredient ->
+                val onlyGlutenFreeMatch = onlyGlutenFree.value == recipe.isGlutenFree || !onlyGlutenFree.value
+                onlyGlutenFreeMatch && categoryMatch && recipe.ingredientNames.any() { ingredient ->
                     kitchenItems.any { kitchenItem ->
                         FuzzySearch.partialRatio(
                             ingredient.lowercase(),
@@ -161,7 +163,9 @@ fun HomeScreen(
         HomeBottomBar(
             navigateToAddRecipe = { navController.navigate(AddRecipeRoute) },
             selectedCategory = selectedCategory.value,
-            onCategorySelected = { selectedCategory.value = it }
+            onCategorySelected = { selectedCategory.value = it },
+            onlyGlutenFree = onlyGlutenFree.value,
+            onlyGlutenFreeChanged = { onlyGlutenFree.value = !onlyGlutenFree.value }
         )
     }
 }
