@@ -1,5 +1,8 @@
 package com.azurowski.whatyummyai.main.ui.screens.cooking
 
+import android.content.pm.PackageManager
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,11 +17,14 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import com.azurowski.whatyummyai.main.ui.components.NoBackTopBar
 import com.azurowski.whatyummyai.main.ui.components.OneButtonBottomBar
@@ -27,6 +33,7 @@ import com.azurowski.whatyummyai.main.ui.components.cooking.StepItem
 import com.azurowski.whatyummyai.main.ui.components.cooking.StepsIndicatorRow
 import com.azurowski.whatyummyai.main.ui.screens.recipe.RecipeViewModel
 import com.azurowski.whatyummyai.main.ui.theme.White50
+import com.azurowski.whatyummyai.main.util.SttHelper
 import kotlinx.coroutines.delay
 
 @Composable
@@ -42,6 +49,52 @@ fun CookingScreen(
         recipe.instructions.size
     })
     val listState = rememberLazyListState()
+
+    val context = LocalContext.current
+    val permissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            cookingViewModel.startListening()
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
+            cookingViewModel.startListening()
+        } else {
+            permissionLauncher.launch(android.Manifest.permission.RECORD_AUDIO)
+        }
+    }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            cookingViewModel.stopListening()
+        }
+    }
+
+    LaunchedEffect(Unit) {
+        cookingViewModel.voiceCommand.collect { command ->
+            when (command) {
+                SttHelper.VoiceCommand.NEXT -> {
+                    if (pagerState.currentPage < pagerState.pageCount - 1) {
+                        pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                    }
+                }
+                SttHelper.VoiceCommand.PREVIOUS -> {
+                    if (pagerState.currentPage > 0) {
+                        pagerState.animateScrollToPage(pagerState.currentPage - 1)
+                    }
+                }
+                SttHelper.VoiceCommand.REPEAT -> {
+                    if (recipe.instructions.isNotEmpty()) {
+                        cookingViewModel.repeatStep(recipe.instructions[pagerState.currentPage])
+                    }
+                }
+                else -> {}
+            }
+        }
+    }
 
     LaunchedEffect(Unit, pagerState.currentPage, recipe.instructions) {
         if (recipe.instructions.isNotEmpty()) {

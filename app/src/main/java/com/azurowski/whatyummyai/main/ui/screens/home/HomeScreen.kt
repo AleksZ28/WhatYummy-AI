@@ -33,7 +33,6 @@ import com.azurowski.whatyummyai.main.ui.components.home.YourKitchenSection
 import com.azurowski.whatyummyai.main.ui.screens.AddRecipeRoute
 import com.azurowski.whatyummyai.main.ui.screens.RecipeRoute
 import com.azurowski.whatyummyai.main.ui.theme.White50
-import com.azurowski.whatyummyai.main.ui.theme.getBackground
 import com.frosch2010.fuzzywuzzy_kotlin.FuzzySearch
 
 @Composable
@@ -54,8 +53,6 @@ fun HomeScreen(
     val prefs = remember {
         context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
     }
-
-    val themeId = prefs.getInt("themeId", 1)
 
     val filteredRecipes = remember(recipes, kitchenItems, selectedCategory.value) {
         if (kitchenItems.isEmpty()) {
@@ -112,7 +109,7 @@ fun HomeScreen(
     )
 
     Column(
-        modifier = Modifier.fillMaxSize().background(brush = getBackground(themeId)),
+        modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         SearchBar(
