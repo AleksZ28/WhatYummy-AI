@@ -121,8 +121,8 @@ fun HomeScreen(
             },
             searchResults = searchResults,
             placeholderText = "Szukaj przepisu...",
-            onRecipeClick = { recipeId, recipeTitle ->
-                navController.navigate(RecipeRoute(recipeId, recipeTitle))
+            onRecipeClick = { recipeId, recipeTitle, recipeIsGlutenFree ->
+                navController.navigate(RecipeRoute(recipeId, recipeTitle, recipeIsGlutenFree))
             }
         )
 
@@ -139,8 +139,8 @@ fun HomeScreen(
             ) {
                 RecentRecipesSection(
                     recipes = recentRecipes,
-                    onRecipeClick = { recipeId, recipeTitle ->
-                        navController.navigate(RecipeRoute(recipeId, recipeTitle))
+                    onRecipeClick = { recipeId, recipeTitle, recipeIsGlutenFree ->
+                        navController.navigate(RecipeRoute(recipeId, recipeTitle, recipeIsGlutenFree))
                     }
                 )
 
@@ -150,8 +150,8 @@ fun HomeScreen(
                     kitchenItems = kitchenItems,
                     onDelete = { kitchenViewModel.deleteItem(it) },
                     recipes = filteredRecipes,
-                    onRecipeClick = { recipeId, recipeTitle ->
-                        navController.navigate(RecipeRoute(recipeId, recipeTitle))
+                    onRecipeClick = { recipeId, recipeTitle, recipeIsGlutenFree ->
+                        navController.navigate(RecipeRoute(recipeId, recipeTitle, recipeIsGlutenFree))
                     }
                 )
             }

@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
 import com.azurowski.whatyummyai.main.model.RecipeSummary
 
 @Composable
-fun FadingLazyColumn(items: List<RecipeSummary>, onRecipeClick: (String, String) -> Unit){
+fun FadingLazyColumn(items: List<RecipeSummary>, onRecipeClick: (String, String, Boolean) -> Unit){
     FadingBoxVertical(modifier = Modifier) {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(8.dp),

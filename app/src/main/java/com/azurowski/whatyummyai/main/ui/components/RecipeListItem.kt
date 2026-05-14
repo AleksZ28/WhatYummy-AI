@@ -29,13 +29,13 @@ import com.azurowski.whatyummyai.main.ui.theme.LightGreenGluten
 import com.azurowski.whatyummyai.main.ui.theme.White50
 
 @Composable
-fun RecipeListItem(recipe: RecipeSummary, onClick: (String, String) -> Unit){
+fun RecipeListItem(recipe: RecipeSummary, onClick: (String, String, Boolean) -> Unit){
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(20.dp))
             .clickable(
-                onClick = { onClick(recipe.id, recipe.title) },
+                onClick = { onClick(recipe.id, recipe.title, recipe.isGlutenFree) },
                 interactionSource = remember { MutableInteractionSource() },
                 indication = ripple()
             )

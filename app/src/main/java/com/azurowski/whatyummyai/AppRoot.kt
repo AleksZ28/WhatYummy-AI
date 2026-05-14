@@ -59,6 +59,7 @@ fun AppNav() {
                 RecipeScreen(
                     recipeId = args.recipeId,
                     recipeTitle = args.recipeTitle,
+                    recipeIsGlutenFree = args.recipeIsGlutenFree,
                     navController = navController,
                 )
             }
@@ -78,7 +79,7 @@ fun AppNav() {
                 val args = backStackEntry.toRoute<CookingRoute>()
 
                 val parentEntry = remember(backStackEntry) {
-                    navController.getBackStackEntry(RecipeRoute(args.recipeId, args.recipeTitle))
+                    navController.getBackStackEntry(RecipeRoute(args.recipeId, args.recipeTitle, args.recipeIsGlutenFree))
                 }
 
                 val sharedRecipeViewModel: RecipeViewModel = viewModel(viewModelStoreOwner = parentEntry)
@@ -89,7 +90,8 @@ fun AppNav() {
                     recipeViewModel = sharedRecipeViewModel,
                     cookingViewModel = cookingViewModel,
                     recipeId = args.recipeId,
-                    recipeTitle = args.recipeTitle
+                    recipeTitle = args.recipeTitle,
+                    recipeIsGlutenFree = args.recipeIsGlutenFree
                 )
             }
 

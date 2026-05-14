@@ -4,6 +4,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.input.TextFieldLineLimits
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
@@ -38,19 +39,25 @@ fun AddKitchenItemDialog(
                 )
             },
             confirmButton = {
-                TextButton(onClick = {
-                    val currentText = newItemFieldState.text.toString()
-                    if (currentText.isNotEmpty()) {
-                        onConfirm(currentText)
-                        newItemFieldState.edit { replace(0, length, "") }
-                    }
-                }) { Text("Dodaj") }
+                TextButton(
+                    onClick = {
+                        val currentText = newItemFieldState.text.toString()
+                        if (currentText.isNotEmpty()) {
+                            onConfirm(currentText)
+                            newItemFieldState.edit { replace(0, length, "") }
+                        }
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent, contentColor = Color.Black)
+                ) { Text("Dodaj") }
             },
             dismissButton = {
-                TextButton(onClick = {
-                    newItemFieldState.edit { replace(0, length, "") }
-                    onDismiss()
-                }) { Text("Anuluj") }
+                TextButton(
+                    onClick = {
+                        newItemFieldState.edit { replace(0, length, "") }
+                        onDismiss()
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent, contentColor = Color.Black)
+                ) { Text("Anuluj") }
             },
         )
     }

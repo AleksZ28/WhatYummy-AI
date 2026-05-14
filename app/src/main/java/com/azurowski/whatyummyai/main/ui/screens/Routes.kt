@@ -9,12 +9,14 @@ data object HomeRoute
 data class RecipeRoute(
     val recipeId: String,
     val recipeTitle: String,
+    val recipeIsGlutenFree: Boolean
 )
 
 @Serializable
 data class CookingRoute(
     val recipeId: String,
-    val recipeTitle: String
+    val recipeTitle: String,
+    val recipeIsGlutenFree: Boolean
 )
 
 @Serializable

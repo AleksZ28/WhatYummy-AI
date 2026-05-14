@@ -55,7 +55,7 @@ fun RecipeScreen(
     navController: NavController,
     recipeViewModel: RecipeViewModel = viewModel(),
     kitchenViewModel: KitchenViewModel = viewModel(),
-    recipeId: String, recipeTitle: String
+    recipeId: String, recipeTitle: String, recipeIsGlutenFree: Boolean,
 ){
     val recipe by recipeViewModel.recipe.collectAsState()
     val kitchenItems by kitchenViewModel.kitchenItems.collectAsState()
@@ -102,7 +102,7 @@ fun RecipeScreen(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        RecipeHeader(navBack = { navController.navigateUp() }, recipeTitle)
+        RecipeHeader(navBack = { navController.navigateUp() }, recipeTitle, recipeIsGlutenFree)
 
         Box(
             modifier = Modifier
@@ -153,7 +153,7 @@ fun RecipeScreen(
             }
 
             Button(
-                onClick = { navController.navigate(CookingRoute(recipeId, recipeTitle)) },
+                onClick = { navController.navigate(CookingRoute(recipeId, recipeTitle, recipeIsGlutenFree)) },
                 colors = ButtonDefaults.buttonColors(
                     containerColor = Color.White,
                     contentColor = Color.Black

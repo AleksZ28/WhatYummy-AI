@@ -28,7 +28,7 @@ import com.azurowski.whatyummyai.main.model.RecipeSummary
 import com.azurowski.whatyummyai.main.ui.components.FadingLazyColumn
 
 @Composable
-fun YourKitchenSection(kitchenItems: List<KitchenItem>, onDelete: (String) -> Unit, recipes: List<RecipeSummary>, onRecipeClick: (String, String) -> Unit){
+fun YourKitchenSection(kitchenItems: List<KitchenItem>, onDelete: (String) -> Unit, recipes: List<RecipeSummary>, onRecipeClick: (String, String, Boolean) -> Unit){
     Text(
         text = "Twoja kuchnia",
         style = TextStyle(

@@ -42,7 +42,8 @@ fun CookingScreen(
     recipeViewModel: RecipeViewModel,
     cookingViewModel: CookingViewModel,
     recipeId: String,
-    recipeTitle: String
+    recipeTitle: String,
+    recipeIsGlutenFree: Boolean
 ){
     val recipe by recipeViewModel.recipe.collectAsState()
     val pagerState = rememberPagerState(pageCount = {

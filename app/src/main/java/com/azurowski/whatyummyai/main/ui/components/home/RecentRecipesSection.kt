@@ -18,7 +18,7 @@ import com.azurowski.whatyummyai.main.ui.components.RecipeListItem
 @Composable
 fun RecentRecipesSection(
     recipes: List<RecipeSummary>,
-    onRecipeClick: (String, String) -> Unit
+    onRecipeClick: (String, String, Boolean) -> Unit
 ){
     Text(
         text = "Ostatnie przepisy",

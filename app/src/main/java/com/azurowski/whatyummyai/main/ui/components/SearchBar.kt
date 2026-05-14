@@ -38,7 +38,7 @@ fun SearchBar(
     onSearch: (String) -> Unit,
     searchResults: List<RecipeSummary>,
     placeholderText: String,
-    onRecipeClick: (String, String) -> Unit
+    onRecipeClick: (String, String, Boolean) -> Unit
 ) {
     var expanded by rememberSaveable { mutableStateOf(false) }
     val horizontalPadding by animateDpAsState(
