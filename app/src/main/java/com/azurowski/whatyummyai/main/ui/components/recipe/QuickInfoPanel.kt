@@ -82,8 +82,14 @@ fun QuickInfoPanel(categories: List<String>, minutes: Int, portionCount: Mutable
             )
         }
 
+        val (time, unit) = if (minutes % 60 == 0 && minutes > 0) {
+            (minutes / 60) to "h"
+        } else {
+            minutes to "min"
+        }
+
         Text(
-            text = "$minutes min",
+            text = "$time $unit",
             style = TextStyle(
                 fontSize = 14.sp
             )
