@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,11 +16,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.azurowski.whatyummyai.main.ui.theme.White50
 
 @Composable
-fun RecipeBottomBar(){
+fun RecipeBottomBar(usersRecipe: Boolean, recipeAuthor: String, onDeleteClick: () -> Unit = {}) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -27,28 +30,47 @@ fun RecipeBottomBar(){
             .padding(start = 24.dp, end = 24.dp, bottom = 8.dp),
         contentAlignment = Alignment.Center
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(color = White50, shape = RoundedCornerShape(999.dp))
-                .padding(horizontal = 4.dp),
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            Button(
-                onClick = { },
-                colors = ButtonDefaults.buttonColors(containerColor = White50, contentColor = Color.Black),
+        if (usersRecipe) {
+            Row(
                 modifier = Modifier
-                    .weight(1f)
+                    .fillMaxWidth()
+                    .background(color = White50, shape = RoundedCornerShape(999.dp))
+                    .padding(horizontal = 4.dp),
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
-                Text("Edytuj")
+                Button(
+                    onClick = { },
+                    colors = ButtonDefaults.buttonColors(containerColor = White50, contentColor = Color.Black),
+                    modifier = Modifier
+                        .weight(1f)
+                ) {
+                    Text("Edytuj")
+                }
+                Button(
+                    onClick = { onDeleteClick() },
+                    colors = ButtonDefaults.buttonColors(containerColor = White50, contentColor = Color.Black),
+                    modifier = Modifier
+                        .weight(1f)
+                ) {
+                    Text("Usuń")
+                }
             }
-            Button(
-                onClick = { },
-                colors = ButtonDefaults.buttonColors(containerColor = White50, contentColor = Color.Black),
+        } else {
+            Row(
                 modifier = Modifier
-                    .weight(1f)
+                    .fillMaxWidth()
+                    .background(color = White50, shape = RoundedCornerShape(999.dp))
+                    .padding(horizontal = 4.dp)
+                    .height(48.dp),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Text("Usuń")
+                Text(
+                    text = "Przepis dodany przez: ${recipeAuthor}",
+                    style = TextStyle(
+                        fontWeight = FontWeight.Bold
+                    )
+                )
             }
         }
     }

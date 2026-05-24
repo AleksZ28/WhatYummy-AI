@@ -54,4 +54,15 @@ class RecipeViewModel : ViewModel() {
                 }
             }
     }
+
+    fun deleteRecipe(recipeId: String, onSuccess: () -> Unit) {
+        db.collection("recipes").document(recipeId)
+            .delete()
+            .addOnSuccessListener {
+                onSuccess()
+            }
+            .addOnFailureListener { e ->
+                Log.w("Recipe", "Error deleting recipe")
+            }
+    }
 }

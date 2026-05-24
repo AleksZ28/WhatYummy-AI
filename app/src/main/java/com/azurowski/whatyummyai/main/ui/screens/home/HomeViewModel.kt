@@ -47,22 +47,25 @@ class HomeViewModel : ViewModel() {
                     Filter.equalTo("public", true)
                 )
             )
-            .get()
-            .addOnSuccessListener { result ->
-                val items = result.map { document ->
-                    val ingredientsRaw = document.get("ingredients") as? List<Map<String, Any>> ?: emptyList()
-                    val ingredientNames = ingredientsRaw.map { it["ingredient"] as? String ?: "" }
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) return@addSnapshotListener
 
-                    RecipeSummary(
-                        id = document.id,
-                        title = document.getString("title") ?: "",
-                        isGlutenFree = document.getBoolean("isGlutenFree") ?: false,
-                        ingredientNames = ingredientNames,
-                        categories = document.get("categories") as? List<String> ?: emptyList()
-                    )
+                if (snapshot != null) {
+                    val items = snapshot.map { document ->
+                        val ingredientsRaw = document.get("ingredients") as? List<Map<String, Any>> ?: emptyList()
+                        val ingredientNames = ingredientsRaw.map { it["ingredient"] as? String ?: "" }
+
+                        RecipeSummary(
+                            id = document.id,
+                            title = document.getString("title") ?: "",
+                            isGlutenFree = document.getBoolean("isGlutenFree") ?: false,
+                            ingredientNames = ingredientNames,
+                            categories = document.get("categories") as? List<String> ?: emptyList()
+                        )
+                    }
+                    _recipes.value = items
+                    updateRecentRecipes()
                 }
-                _recipes.value = items
-                updateRecentRecipes()
             }
     }
 }

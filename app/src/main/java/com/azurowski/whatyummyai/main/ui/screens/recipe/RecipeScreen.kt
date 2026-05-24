@@ -25,7 +25,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.dropShadow
@@ -40,6 +42,7 @@ import androidx.core.content.edit
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.azurowski.whatyummyai.main.ui.components.FadingBoxVertical
+import com.azurowski.whatyummyai.main.ui.components.recipe.DeleteRecipeDialog
 import com.azurowski.whatyummyai.main.ui.components.recipe.IngredientListItem
 import com.azurowski.whatyummyai.main.ui.components.recipe.QuickInfoPanel
 import com.azurowski.whatyummyai.main.ui.components.recipe.RecipeBottomBar
@@ -49,6 +52,8 @@ import com.azurowski.whatyummyai.main.ui.screens.CookingRoute
 import com.azurowski.whatyummyai.main.ui.screens.home.KitchenViewModel
 import com.azurowski.whatyummyai.main.ui.theme.White50
 import com.frosch2010.fuzzywuzzy_kotlin.FuzzySearch
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 
 @Composable
 fun RecipeScreen(
@@ -61,7 +66,11 @@ fun RecipeScreen(
     val kitchenItems by kitchenViewModel.kitchenItems.collectAsState()
     val context = LocalContext.current
 
+    val auth = Firebase.auth
+    val userId = auth.currentUser?.uid.toString()
+
     val portionCount = remember { mutableIntStateOf(1) }
+    var showDeleteDialog by remember { mutableStateOf(false) }
 
     val annotatedIngredients by remember(recipe, kitchenItems, portionCount) {
         derivedStateOf {
@@ -79,6 +88,17 @@ fun RecipeScreen(
             }.sortedByDescending {it.second}
         }
     }
+
+    DeleteRecipeDialog(
+        showDialog = showDeleteDialog,
+        onDismiss = { showDeleteDialog = false },
+        onConfirm = {
+            showDeleteDialog = false
+            recipeViewModel.deleteRecipe(recipeId) {
+                navController.navigateUp()
+            }
+        }
+    )
 
     LaunchedEffect(Unit) {
         recipeViewModel.fetchRecipe(recipeId)
@@ -182,7 +202,15 @@ fun RecipeScreen(
             }
         }
 
-        RecipeBottomBar()
+        if (recipe.id.isNotEmpty()){
+            RecipeBottomBar(
+                usersRecipe = userId == recipe.authorId,
+                recipeAuthor = recipe.authorName.substringBefore(" "),
+                onDeleteClick = {
+                    showDeleteDialog = true
+                }
+            )
+        }
     }
 }
 
