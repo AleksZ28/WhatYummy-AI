@@ -22,6 +22,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.azurowski.whatyummyai.main.ui.screens.AddRecipeRoute
 import com.azurowski.whatyummyai.main.ui.screens.CookingRoute
+import com.azurowski.whatyummyai.main.ui.screens.EditRecipeRoute
 import com.azurowski.whatyummyai.main.ui.screens.HomeRoute
 import com.azurowski.whatyummyai.main.ui.screens.RecipeRoute
 import com.azurowski.whatyummyai.main.ui.screens.SettingsRoute
@@ -29,6 +30,7 @@ import com.azurowski.whatyummyai.main.ui.screens.cooking.CookingScreen
 import com.azurowski.whatyummyai.main.ui.screens.cooking.CookingViewModel
 import com.azurowski.whatyummyai.main.ui.screens.home.HomeScreen
 import com.azurowski.whatyummyai.main.ui.screens.recipe.AddRecipeScreen
+import com.azurowski.whatyummyai.main.ui.screens.recipe.EditRecipeScreen
 import com.azurowski.whatyummyai.main.ui.screens.recipe.RecipeScreen
 import com.azurowski.whatyummyai.main.ui.screens.recipe.RecipeViewModel
 import com.azurowski.whatyummyai.main.ui.screens.settings.SettingsScreen
@@ -121,6 +123,22 @@ fun AppNav() {
                 }
             ) {
                 AddRecipeScreen(navController)
+            }
+
+            composable<EditRecipeRoute>(
+                enterTransition = {
+                    slideInVertically(
+                        initialOffsetY = { it }
+                    )
+                },
+                popExitTransition = {
+                    slideOutVertically(
+                        targetOffsetY = { it }
+                    )
+                }
+            ) { backStackEntry ->
+                val args = backStackEntry.toRoute<EditRecipeRoute>()
+                EditRecipeScreen(navController, recipeId = args.recipeId)
             }
 
             composable<SettingsRoute>(

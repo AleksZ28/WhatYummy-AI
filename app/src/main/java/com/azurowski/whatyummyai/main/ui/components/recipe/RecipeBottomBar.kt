@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.azurowski.whatyummyai.main.ui.theme.White50
 
 @Composable
-fun RecipeBottomBar(usersRecipe: Boolean, recipeAuthor: String, onDeleteClick: () -> Unit = {}) {
+fun RecipeBottomBar(usersRecipe: Boolean, recipeAuthor: String, onEditClick: () -> Unit = {}, onDeleteClick: () -> Unit = {}) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -39,7 +39,7 @@ fun RecipeBottomBar(usersRecipe: Boolean, recipeAuthor: String, onDeleteClick: (
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Button(
-                    onClick = { },
+                    onClick = { onEditClick() },
                     colors = ButtonDefaults.buttonColors(containerColor = White50, contentColor = Color.Black),
                     modifier = Modifier
                         .weight(1f)

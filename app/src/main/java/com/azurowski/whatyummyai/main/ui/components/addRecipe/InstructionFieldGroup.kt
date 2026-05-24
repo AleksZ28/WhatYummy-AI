@@ -14,12 +14,14 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun InstructionFieldGroup(instructions: List<TextFieldState>, onAddInstruction: () -> Unit){
-    val lastField = instructions.last()
+    val lastField = instructions.lastOrNull()
 
-    LaunchedEffect(lastField) {
-        snapshotFlow { lastField.text }.collect { text ->
-            if (text.isNotEmpty()) {
-                onAddInstruction()
+    if (lastField != null) {
+        LaunchedEffect(lastField) {
+            snapshotFlow { lastField.text }.collect { text ->
+                if (text.isNotEmpty()) {
+                    onAddInstruction()
+                }
             }
         }
     }

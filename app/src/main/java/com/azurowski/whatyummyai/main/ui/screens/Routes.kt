@@ -23,4 +23,7 @@ data class CookingRoute(
 data object AddRecipeRoute
 
 @Serializable
+data class EditRecipeRoute(val recipeId: String)
+
+@Serializable
 data object SettingsRoute

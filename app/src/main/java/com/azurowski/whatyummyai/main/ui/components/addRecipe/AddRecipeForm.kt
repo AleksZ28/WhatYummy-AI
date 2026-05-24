@@ -17,6 +17,7 @@ import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -44,11 +45,12 @@ fun AddRecipeForm(
     selectedCategories: List<String>,
     isPublic: Boolean,
     isGlutenFree: Boolean,
+    showImagePicker: Boolean = true,
     onAddIngredient: () -> Unit,
     onUnitSelected: (Int, String) -> Unit,
     onTimeUnitSelected: (String) -> Unit,
-    onAddImages: () -> Unit,
-    onRemoveImage: (Uri) -> Unit,
+    onAddImages: () -> Unit = {},
+    onRemoveImage: (Uri) -> Unit = {},
     onAddInstruction: () -> Unit,
     onCategoryToggle: (String) -> Unit,
     onPublicToggle: () -> Unit,
@@ -86,13 +88,15 @@ fun AddRecipeForm(
             ) {
                 Spacer(modifier = Modifier.height(12.dp))
 
-                ImagePickerSection(
-                    images = images,
-                    onAddImages = onAddImages,
-                    onRemoveImage = onRemoveImage
-                )
+                if (showImagePicker) {
+                    ImagePickerSection(
+                        images = images,
+                        onAddImages = onAddImages,
+                        onRemoveImage = onRemoveImage
+                    )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
 
                 AddRecipeTextField(
                     state = title,
@@ -162,6 +166,11 @@ fun AddRecipeForm(
             }
         }
 
+        HorizontalDivider(
+            modifier = Modifier.fillMaxWidth(),
+            thickness = 2.dp,
+            color = Color.DarkGray.copy(alpha = 0.5f)
+        )
 
         Column(
             verticalArrangement = Arrangement.spacedBy(16.dp)

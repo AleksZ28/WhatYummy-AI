@@ -14,12 +14,14 @@ fun IngredientFieldGroup(
     onAddIngredient: () -> Unit,
     onUnitSelected: (Int, String) -> Unit
 ){
-    val lastField = ingredientsData.last()
+    val lastField = ingredientsData.lastOrNull()
 
-    LaunchedEffect(lastField) {
-        snapshotFlow { lastField.name.text }.collect { text ->
-            if (text.isNotEmpty()){
-                onAddIngredient()
+    if (lastField != null) {
+        LaunchedEffect(lastField) {
+            snapshotFlow { lastField.name.text }.collect { text ->
+                if (text.isNotEmpty()){
+                    onAddIngredient()
+                }
             }
         }
     }

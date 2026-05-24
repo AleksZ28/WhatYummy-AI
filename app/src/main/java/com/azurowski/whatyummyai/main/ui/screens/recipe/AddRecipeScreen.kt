@@ -92,9 +92,3 @@ fun AddRecipeScreen(
         )
     }
 }
-
-//@Preview
-//@Composable
-//fun AddRecipeScreenPreview(){
-//    AddRecipeScreen(navController = NavController(context = LocalContext.current))
-//}

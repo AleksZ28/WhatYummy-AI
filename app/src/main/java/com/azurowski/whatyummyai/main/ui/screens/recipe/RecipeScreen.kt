@@ -49,6 +49,7 @@ import com.azurowski.whatyummyai.main.ui.components.recipe.RecipeBottomBar
 import com.azurowski.whatyummyai.main.ui.components.recipe.RecipeCarousel
 import com.azurowski.whatyummyai.main.ui.components.recipe.RecipeHeader
 import com.azurowski.whatyummyai.main.ui.screens.CookingRoute
+import com.azurowski.whatyummyai.main.ui.screens.EditRecipeRoute
 import com.azurowski.whatyummyai.main.ui.screens.home.KitchenViewModel
 import com.azurowski.whatyummyai.main.ui.theme.White50
 import com.frosch2010.fuzzywuzzy_kotlin.FuzzySearch
@@ -136,9 +137,11 @@ fun RecipeScreen(
                     contentPadding = PaddingValues(horizontal = 30.dp, vertical = 30.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    item {
-                        RecipeCarousel(recipe.imageUrls)
-                        Spacer(modifier = Modifier.height(12.dp))
+                    if (recipe.imageUrls.isNotEmpty()) {
+                        item {
+                            RecipeCarousel(recipe.imageUrls)
+                            Spacer(modifier = Modifier.height(12.dp))
+                        }
                     }
 
                     if (recipe.id.isNotEmpty()) {
@@ -206,6 +209,9 @@ fun RecipeScreen(
             RecipeBottomBar(
                 usersRecipe = userId == recipe.authorId,
                 recipeAuthor = recipe.authorName.substringBefore(" "),
+                onEditClick = {
+                    navController.navigate(EditRecipeRoute(recipeId))
+                },
                 onDeleteClick = {
                     showDeleteDialog = true
                 }

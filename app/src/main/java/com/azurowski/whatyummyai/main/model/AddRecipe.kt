@@ -21,3 +21,16 @@ data class IngredientField(
     val amount: TextFieldState = TextFieldState(),
     val unit: String = ""
 )
+
+data class EditRecipeState(
+    val title: TextFieldState = TextFieldState(),
+    val totalTime: TextFieldState = TextFieldState(),
+    val timeUnit: String = "min",
+    val ingredients: List<IngredientField> = emptyList(),
+    val instructions: List<TextFieldState> = emptyList(),
+    val categories: List<String> = emptyList(),
+    val glutenFree: Boolean = false,
+    val public: Boolean = true,
+    val isSaving: Boolean = false,
+    val images: List<String> = emptyList()
+)
