@@ -21,3 +21,6 @@ data class CookingRoute(
 
 @Serializable
 data object AddRecipeRoute
+
+@Serializable
+data object SettingsRoute

@@ -56,6 +56,7 @@ import com.azurowski.whatyummyai.main.ui.theme.White50
 @Composable
 fun HomeBottomBar(
     navigateToAddRecipe: () -> Unit,
+    navigateToSettings: () -> Unit,
     selectedCategory: String,
     onCategorySelected: (String) -> Unit,
     onlyGlutenFree: Boolean,
@@ -171,7 +172,7 @@ fun HomeBottomBar(
                 IconButton(onClick = navigateToAddRecipe) {
                     Icon(Icons.Filled.Add, contentDescription = "Dodaj przepis")
                 }
-                IconButton(onClick = { /* do something */ }) {
+                IconButton(onClick = navigateToSettings) {
                     Icon(
                         Icons.Filled.Menu,
                         contentDescription = "Otwórz menu",

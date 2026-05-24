@@ -32,6 +32,7 @@ import com.azurowski.whatyummyai.main.ui.components.home.RecentRecipesSection
 import com.azurowski.whatyummyai.main.ui.components.home.YourKitchenSection
 import com.azurowski.whatyummyai.main.ui.screens.AddRecipeRoute
 import com.azurowski.whatyummyai.main.ui.screens.RecipeRoute
+import com.azurowski.whatyummyai.main.ui.screens.SettingsRoute
 import com.azurowski.whatyummyai.main.ui.theme.White50
 import com.frosch2010.fuzzywuzzy_kotlin.FuzzySearch
 
@@ -165,7 +166,8 @@ fun HomeScreen(
             selectedCategory = selectedCategory.value,
             onCategorySelected = { selectedCategory.value = it },
             onlyGlutenFree = onlyGlutenFree.value,
-            onlyGlutenFreeChanged = { onlyGlutenFree.value = !onlyGlutenFree.value }
+            onlyGlutenFreeChanged = { onlyGlutenFree.value = !onlyGlutenFree.value },
+            navigateToSettings = { navController.navigate(SettingsRoute) }
         )
     }
 }

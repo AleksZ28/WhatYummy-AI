@@ -22,7 +22,7 @@ class afterLoginFragment : Fragment(R.layout.fragment_after_login) {
 
         val view = inflater.inflate(R.layout.fragment_after_login, container, false)
         val user = FirebaseAuth.getInstance().currentUser
-        val name = user?.displayName
+        val name = user?.displayName?.substringBefore(" ")
 
         view.findViewById<TextView>(R.id.tvIntroH2).text = name
 

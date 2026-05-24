@@ -9,7 +9,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -21,13 +24,16 @@ import com.azurowski.whatyummyai.main.ui.screens.AddRecipeRoute
 import com.azurowski.whatyummyai.main.ui.screens.CookingRoute
 import com.azurowski.whatyummyai.main.ui.screens.HomeRoute
 import com.azurowski.whatyummyai.main.ui.screens.RecipeRoute
+import com.azurowski.whatyummyai.main.ui.screens.SettingsRoute
 import com.azurowski.whatyummyai.main.ui.screens.cooking.CookingScreen
 import com.azurowski.whatyummyai.main.ui.screens.cooking.CookingViewModel
 import com.azurowski.whatyummyai.main.ui.screens.home.HomeScreen
 import com.azurowski.whatyummyai.main.ui.screens.recipe.AddRecipeScreen
 import com.azurowski.whatyummyai.main.ui.screens.recipe.RecipeScreen
 import com.azurowski.whatyummyai.main.ui.screens.recipe.RecipeViewModel
+import com.azurowski.whatyummyai.main.ui.screens.settings.SettingsScreen
 import com.azurowski.whatyummyai.main.ui.theme.Backgrounds
+import androidx.core.content.edit
 
 @Composable
 fun AppNav() {
@@ -35,7 +41,14 @@ fun AppNav() {
 
     val context = LocalContext.current
     val prefs = context.getSharedPreferences("MyPrefs", MODE_PRIVATE)
-    val savedThemeKey = prefs.getInt("themeId", 1)
+    var savedThemeKey by remember {
+        mutableIntStateOf(prefs.getInt("themeId", 1))
+    }
+
+    fun changeTheme(newTheme: Int) {
+        savedThemeKey = newTheme
+        prefs.edit { putInt("themeId", newTheme) }
+    }
 
     val savedTheme = when(savedThemeKey) {
         1 -> Backgrounds.bg1
@@ -108,6 +121,24 @@ fun AppNav() {
                 }
             ) {
                 AddRecipeScreen(navController)
+            }
+
+            composable<SettingsRoute>(
+                enterTransition = {
+                    slideInHorizontally(
+                        initialOffsetX = { it }
+                    )
+                },
+                popExitTransition = {
+                    slideOutHorizontally (
+                        targetOffsetX = { it }
+                    )
+                }
+            ) {
+                SettingsScreen(
+                    navController,
+                    onThemeChange = { changeTheme(it) }
+                )
             }
         }
     }
