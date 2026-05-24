@@ -54,7 +54,7 @@ class AddRecipeViewModel : ViewModel() {
                     ingredients = _state.value.ingredients.map {
                         Ingredient(
                             ingredient = it.name.text.toString(),
-                            amount = it.amount.text.toString().toDoubleOrNull() ?: 0.0,
+                            amount = it.amount.text.toString().replace(",", ".").replace(" ", "").toDoubleOrNull() ?: 0.0,
                             unit = it.unit
                         )
                     }.filter { it.ingredient.isNotEmpty() },

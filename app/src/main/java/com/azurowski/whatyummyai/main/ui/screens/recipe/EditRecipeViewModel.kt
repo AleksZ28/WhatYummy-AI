@@ -78,7 +78,7 @@ class EditRecipeViewModel : ViewModel() {
                     "ingredients" to _state.value.ingredients.map {
                         mapOf(
                             "ingredient" to it.name.text.toString(),
-                            "amount" to (it.amount.text.toString().toDoubleOrNull() ?: 0.0),
+                            "amount" to (it.amount.text.toString().replace(",", ".").replace(" ", "").toDoubleOrNull() ?: 0.0),
                             "unit" to it.unit
                         )
                     }.filter { (it["ingredient"] as String).isNotEmpty() },

@@ -30,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.dropShadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -51,6 +52,7 @@ import com.azurowski.whatyummyai.main.ui.components.recipe.RecipeHeader
 import com.azurowski.whatyummyai.main.ui.screens.CookingRoute
 import com.azurowski.whatyummyai.main.ui.screens.EditRecipeRoute
 import com.azurowski.whatyummyai.main.ui.screens.home.KitchenViewModel
+import com.azurowski.whatyummyai.main.ui.theme.LightGreen50
 import com.azurowski.whatyummyai.main.ui.theme.White50
 import com.frosch2010.fuzzywuzzy_kotlin.FuzzySearch
 import com.google.firebase.Firebase
@@ -169,6 +171,45 @@ fun RecipeScreen(
                         IngredientListItem(ingredient, inKitchen)
                     }
 
+                    item {
+                        Spacer(modifier = Modifier.height(12.dp))
+                    }
+
+                    item {
+                        Text(
+                            text = "Przygotowanie",
+                            style = TextStyle(
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 24.sp,
+                                textAlign = TextAlign.Center
+                            ),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                        )
+                        Spacer(modifier = Modifier.height(12.dp))
+                    }
+
+                    item {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clip(RoundedCornerShape(20.dp))
+                                .background(White50)
+                                .padding(24.dp),
+                            verticalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            recipe.instructions.forEachIndexed { index, instruction ->
+                                Text(
+                                    text = (index+1).toString() + ". " + instruction,
+                                    style = TextStyle(
+                                        fontWeight = FontWeight.Medium,
+                                        fontSize = 16.sp
+                                    )
+                                )
+                            }
+                        }
+                    }
+
                     item{
                         Spacer(modifier = Modifier.height(64.dp))
                     }
@@ -219,15 +260,3 @@ fun RecipeScreen(
         }
     }
 }
-
-//@Preview
-//@Composable
-//fun RecipeScreenPreview() {
-//    val navController = rememberNavController()
-//
-//    RecipeScreen(
-//        navController = navController,
-//        recipeId = "123",
-//        recipeTitle = "Spaghetti Carbonara"
-//    )
-//}
