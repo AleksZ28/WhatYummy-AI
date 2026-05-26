@@ -10,7 +10,10 @@
 
 ## Screenshots
 
-
+<img width="200" alt="Screenshot_20260526_182547_WhatYummy AI" src="https://github.com/user-attachments/assets/88ece392-6aa6-4b5f-b6bd-b7fdcf1898d5" />
+<img width="200" alt="Screenshot_20260526_175514_WhatYummy AI" src="https://github.com/user-attachments/assets/54aa9414-178d-4591-a358-f935bb1cde1b" />
+<img width="200" alt="Screenshot_20260526_182630_WhatYummy AI" src="https://github.com/user-attachments/assets/5f45d568-e982-4057-bfad-40e6ddc93d96" />
+<img width="200" alt="Screenshot_20260526_182653_WhatYummy AI" src="https://github.com/user-attachments/assets/83d89869-9679-4d55-b1fc-bd4f5dcea40f" />
 
 ---
 
@@ -83,7 +86,8 @@
 
 ---
 
-
+<br>
+<br>
 
 # 🇵🇱 WhatYummy AI
 
@@ -93,7 +97,10 @@
 
 ## Zrzuty ekranu
 
-
+<img width="200" alt="Screenshot_20260526_182547_WhatYummy AI" src="https://github.com/user-attachments/assets/88ece392-6aa6-4b5f-b6bd-b7fdcf1898d5" />
+<img width="200" alt="Screenshot_20260526_175514_WhatYummy AI" src="https://github.com/user-attachments/assets/54aa9414-178d-4591-a358-f935bb1cde1b" />
+<img width="200" alt="Screenshot_20260526_182630_WhatYummy AI" src="https://github.com/user-attachments/assets/5f45d568-e982-4057-bfad-40e6ddc93d96" />
+<img width="200" alt="Screenshot_20260526_182653_WhatYummy AI" src="https://github.com/user-attachments/assets/83d89869-9679-4d55-b1fc-bd4f5dcea40f" />
 
 ---
 
