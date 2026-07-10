@@ -7,10 +7,17 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.BlendMode
@@ -26,16 +33,38 @@ import androidx.compose.ui.unit.sp
 import com.azurowski.whatyummyai.main.model.KitchenItem
 import com.azurowski.whatyummyai.main.model.RecipeSummary
 import com.azurowski.whatyummyai.main.ui.components.FadingLazyColumn
+import com.azurowski.whatyummyai.main.ui.theme.White50
 
 @Composable
-fun YourKitchenSection(kitchenItems: List<KitchenItem>, onDelete: (String) -> Unit, recipes: List<RecipeSummary>, onRecipeClick: (String, String, Boolean) -> Unit){
-    Text(
-        text = "Twoja kuchnia",
-        style = TextStyle(
-            fontWeight = FontWeight.Bold,
-            fontSize = 24.sp
+fun YourKitchenSection(kitchenItems: List<KitchenItem>, onDelete: (String) -> Unit, recipes: List<RecipeSummary>, onRecipeClick: (String, String, Boolean) -> Unit, onAddClick: () -> Unit) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
+            text = "Twoja kuchnia",
+            style = TextStyle(
+                fontWeight = FontWeight.Bold,
+                fontSize = 24.sp
+            )
         )
-    )
+
+        FilledIconButton(
+            onClick = onAddClick,
+            modifier = Modifier.size(28.dp),
+            colors = IconButtonDefaults.iconButtonColors(
+                containerColor = White50,
+                contentColor = Color.Black
+            )
+        ) {
+            Icon(
+                imageVector = Icons.Default.Add,
+                contentDescription = null,
+                modifier = Modifier.size(16.dp)
+            )
+        }
+    }
 
     Spacer(modifier = Modifier.height(12.dp))
 

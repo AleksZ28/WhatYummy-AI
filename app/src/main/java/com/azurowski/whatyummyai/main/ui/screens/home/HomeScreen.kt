@@ -12,12 +12,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -26,16 +29,18 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.azurowski.whatyummyai.main.ui.components.AddKitchenItemDialog
 import com.azurowski.whatyummyai.main.ui.components.SearchBar
-import com.azurowski.whatyummyai.main.ui.components.home.AddToKitchenButton
+import com.azurowski.whatyummyai.main.ui.components.home.AIButton
 import com.azurowski.whatyummyai.main.ui.components.home.HomeBottomBar
 import com.azurowski.whatyummyai.main.ui.components.home.RecentRecipesSection
 import com.azurowski.whatyummyai.main.ui.components.home.YourKitchenSection
 import com.azurowski.whatyummyai.main.ui.screens.AddRecipeRoute
 import com.azurowski.whatyummyai.main.ui.screens.RecipeRoute
 import com.azurowski.whatyummyai.main.ui.screens.SettingsRoute
+import com.azurowski.whatyummyai.main.ui.sheets.AIBottomSheet
 import com.azurowski.whatyummyai.main.ui.theme.White50
 import com.frosch2010.fuzzywuzzy_kotlin.FuzzySearch
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     navController: NavController,
@@ -50,6 +55,9 @@ fun HomeScreen(
     val openDialog = remember { mutableStateOf(false) }
     val selectedCategory = remember { mutableStateOf("Wszystkie") }
     val onlyGlutenFree = remember { mutableStateOf(false) }
+
+    val sheetState = rememberModalBottomSheetState()
+    var showBottomSheet by remember { mutableStateOf(false) }
 
     val context = LocalContext.current
     val prefs = remember {
@@ -105,6 +113,13 @@ fun HomeScreen(
         }
     }
 
+    if (showBottomSheet) {
+        AIBottomSheet(
+            state = sheetState,
+            onDismiss = { showBottomSheet = false }
+        )
+    }
+
     AddKitchenItemDialog(
         showDialog = openDialog.value,
         onDismiss = { openDialog.value = false },
@@ -153,11 +168,12 @@ fun HomeScreen(
                     recipes = filteredRecipes,
                     onRecipeClick = { recipeId, recipeTitle, recipeIsGlutenFree ->
                         navController.navigate(RecipeRoute(recipeId, recipeTitle, recipeIsGlutenFree))
-                    }
+                    },
+                    onAddClick = { openDialog.value = true }
                 )
             }
 
-            AddToKitchenButton(modifier = Modifier.align(Alignment.BottomEnd), onClick = { openDialog.value = true })
+            AIButton(modifier = Modifier.align(Alignment.BottomEnd), onClick = { showBottomSheet = true })
 
         }
 
