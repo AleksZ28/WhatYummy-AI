@@ -91,4 +91,5 @@ dependencies {
     implementation(libs.coil.network.okhttp)
     implementation(libs.fuzzywuzzy.kotlin)
     implementation(libs.cloudinary.android)
+    implementation(libs.androidx.datastore.preferences)
 }

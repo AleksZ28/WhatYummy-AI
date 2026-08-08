@@ -16,6 +16,8 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -32,10 +34,12 @@ import com.azurowski.whatyummyai.main.ui.components.cooking.RemainingStepsText
 import com.azurowski.whatyummyai.main.ui.components.cooking.StepItem
 import com.azurowski.whatyummyai.main.ui.components.cooking.StepsIndicatorRow
 import com.azurowski.whatyummyai.main.ui.screens.recipe.RecipeViewModel
+import com.azurowski.whatyummyai.main.ui.sheets.cooking.IntroBottomSheet
 import com.azurowski.whatyummyai.main.ui.theme.White50
 import com.azurowski.whatyummyai.main.util.SttHelper
 import kotlinx.coroutines.delay
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CookingScreen(
     navController: NavController,
@@ -59,6 +63,9 @@ fun CookingScreen(
             cookingViewModel.startListening()
         }
     }
+
+    val introSheetState = rememberModalBottomSheetState()
+    val showIntroSheet by cookingViewModel.showIntro.collectAsState()
 
     LaunchedEffect(Unit) {
         if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) {
@@ -104,6 +111,10 @@ fun CookingScreen(
         }
     }
 
+    if (showIntroSheet) {
+        IntroBottomSheet(state = introSheetState, onDismiss = { cookingViewModel.dismissIntro() })
+    }
+
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.spacedBy(16.dp)
@@ -112,7 +123,15 @@ fun CookingScreen(
             modifier = Modifier
                 .weight(1f)
                 .fillMaxWidth()
-                .background(color = White50, shape = RoundedCornerShape(topStart = 0.dp, topEnd = 0.dp, bottomStart = 45.dp, bottomEnd = 45.dp))
+                .background(
+                    color = White50,
+                    shape = RoundedCornerShape(
+                        topStart = 0.dp,
+                        topEnd = 0.dp,
+                        bottomStart = 45.dp,
+                        bottomEnd = 45.dp
+                    )
+                )
         ) {
             Column(
                 modifier = Modifier.statusBarsPadding()
