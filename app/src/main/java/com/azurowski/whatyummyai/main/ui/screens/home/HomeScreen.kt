@@ -75,7 +75,7 @@ fun HomeScreen(
                 val onlyGlutenFreeMatch = onlyGlutenFree.value == recipe.isGlutenFree || !onlyGlutenFree.value
                 onlyGlutenFreeMatch && categoryMatch && recipe.ingredientNames.any() { ingredient ->
                     kitchenItems.any { kitchenItem ->
-                        FuzzySearch.partialRatio(
+                        FuzzySearch.tokenSetRatio(
                             ingredient.lowercase(),
                             kitchenItem.name.lowercase()
                         ) > 70
