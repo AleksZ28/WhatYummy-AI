@@ -40,7 +40,7 @@ fun CategoriesSelection(
                 onCheckedChange = { onCategoryToggle(label) },
                 modifier = Modifier.semantics { role = Role.RadioButton },
                 shapes = ButtonGroupDefaults.connectedMiddleButtonShapes(),
-                colors = ToggleButtonDefaults.toggleButtonColors(
+                colors = ToggleButtonDefaults.colors(
                     containerColor = White25, 
                     checkedContainerColor = GrayStatic, 
                     checkedContentColor = Color.Black

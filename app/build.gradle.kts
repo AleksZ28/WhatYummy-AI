@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.azurowski.whatyummyai"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.azurowski.whatyummyai"
